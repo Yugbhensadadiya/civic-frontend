@@ -8,6 +8,7 @@ import GoogleProvider from '@/components/GoogleProvider'
 import GoogleLoginBtn from '@/components/GoogleLoginBtn'
 import { useRouter } from 'next/navigation'
 import api from '../../lib/axios'
+import { API_BASE_URL } from '../../lib/config'
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' })
@@ -49,6 +50,7 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
     try {
+      console.log("Login API:", `${API_BASE_URL}/api/login/`);
       const response = await api.post('/api/login/', formData)
       const data = response.data
 

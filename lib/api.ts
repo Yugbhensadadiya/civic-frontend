@@ -1,11 +1,8 @@
 import axios from 'axios'
 import { getApiBaseUrl } from './config'
 
-// Get API base URL safely at runtime
-const API_BASE_URL = getApiBaseUrl()
-
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -43,7 +40,8 @@ api.interceptors.response.use(
     }
     // Log detailed error info for debugging
     if (error.code === 'ERR_NETWORK' || !error.response) {
-      console.error('Network error or no response in API:', error.message, 'API_BASE_URL:', API_BASE_URL)
+      const currentBaseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com'
+      console.error('Network error or no response in API:', error.message, 'API_BASE_URL:', currentBaseUrl)
     }
     return Promise.reject(error)
   }
@@ -95,7 +93,8 @@ export const apiDelete = async (url: string) => {
 // Public API functions (no auth required)
 export const publicApiGet = async (url: string, params?: any) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}${url}`, { 
+    const baseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com'
+    const response = await axios.get(`${baseUrl}${url}`, {
       params,
       headers: {
         'Content-Type': 'application/json',
@@ -111,6 +110,7 @@ export const publicApiGet = async (url: string, params?: any) => {
 // File upload helper
 export const uploadFile = async (url: string, file: File, additionalData?: any) => {
   try {
+    const baseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com'
     const formData = new FormData()
     formData.append('file', file)
     
@@ -129,7 +129,7 @@ export const uploadFile = async (url: string, file: File, additionalData?: any) 
       headers['Authorization'] = `Bearer ${token}`
     }
     
-    const response = await axios.post(`${API_BASE_URL}${url}`, formData, { headers })
+    const response = await axios.post(`${baseUrl}${url}`, formData, { headers })
     return response.data
   } catch (error) {
     console.error(`File upload ${url} failed:`, error)

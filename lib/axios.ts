@@ -1,11 +1,8 @@
 import axios from 'axios'
 import { getApiBaseUrl } from './config'
 
-// Get API base URL safely at runtime
-const API_BASE_URL = getApiBaseUrl()
-
 const api = axios.create({
-  baseURL: API_BASE_URL
+  baseURL: typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com'
 })
 
 // Add request interceptor to include authentication token
@@ -39,7 +36,8 @@ api.interceptors.response.use(
     }
     // Log detailed error info for debugging
     if (error.code === 'ERR_NETWORK' || !error.response) {
-      console.error('Network error or no response:', error.message, 'API_BASE_URL:', API_BASE_URL)
+      const currentBaseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com'
+      console.error('Network error or no response:', error.message, 'API_BASE_URL:', currentBaseUrl)
     }
     return Promise.reject(error)
   }
