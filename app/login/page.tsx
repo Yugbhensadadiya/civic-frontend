@@ -66,8 +66,12 @@ export default function LoginPage() {
         }
         setError(data.message || 'Invalid email or password.')
       }
-    } catch (error) {
-      setError('Cannot connect to server. Please try again.')
+    } catch (error: any) {
+      // Enhanced error logging for debugging
+      console.error('Login error:', error)
+      const errorMessage = error.response?.data?.message || error.message || 'Cannot connect to server'
+      const statusCode = error.response?.status ? ` (${error.response.status})` : ''
+      setError(`${errorMessage}${statusCode}. Please try again.`)
     } finally {
       setLoading(false)
     }

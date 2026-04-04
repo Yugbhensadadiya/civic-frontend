@@ -1,7 +1,15 @@
 import axios from 'axios'
 
+// Ensure API base URL is always defined with production fallback
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://civic-backend-2.onrender.com'
+
+// Debug log to verify API base URL
+if (typeof window !== 'undefined') {
+  console.log('API BASE URL:', API_BASE_URL)
+}
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL
+  baseURL: API_BASE_URL
 })
 
 // Add request interceptor to include authentication token
@@ -17,6 +25,7 @@ api.interceptors.request.use(
     return config
   },
   (error) => {
+    console.error('Request interceptor error:', error)
     return Promise.reject(error)
   }
 )
@@ -31,6 +40,10 @@ api.interceptors.response.use(
       // Clear invalid token
       localStorage.removeItem('access_token')
       console.warn('Authentication failed, token cleared')
+    }
+    // Log detailed error info for debugging
+    if (error.code === 'ERR_NETWORK' || !error.response) {
+      console.error('Network error or no response:', error.message, 'API_BASE_URL:', API_BASE_URL)
     }
     return Promise.reject(error)
   }

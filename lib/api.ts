@@ -1,7 +1,12 @@
 import axios from 'axios'
 
-// Create base axios instance
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+// Ensure API base URL is always defined with production fallback
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://civic-backend-2.onrender.com'
+
+// Debug log to verify API base URL
+if (typeof window !== 'undefined') {
+  console.log('API BASE URL (api.ts):', API_BASE_URL)
+}
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -20,6 +25,7 @@ api.interceptors.request.use(
     return config
   },
   (error) => {
+    console.error('Request interceptor error:', error)
     return Promise.reject(error)
   }
 )
@@ -35,9 +41,13 @@ api.interceptors.response.use(
       localStorage.removeItem('departmentToken')
       
       // Redirect to login if needed
-      if (window.location.pathname !== '/login') {
+      if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
         window.location.href = '/login'
       }
+    }
+    // Log detailed error info for debugging
+    if (error.code === 'ERR_NETWORK' || !error.response) {
+      console.error('Network error or no response in API:', error.message, 'API_BASE_URL:', API_BASE_URL)
     }
     return Promise.reject(error)
   }
