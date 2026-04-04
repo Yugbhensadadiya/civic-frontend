@@ -111,8 +111,10 @@ const createAuthenticatedApi = (): AxiosInstance => {
     baseURL: getApiBaseUrl(),
     headers: {
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
     },
     timeout: 30000,
+    withCredentials: false, // CORS handled by backend
   })
 
   // Request interceptor
@@ -125,51 +127,85 @@ const createAuthenticatedApi = (): AxiosInstance => {
         config.headers.Authorization = `Bearer ${token}`
       }
       
+      // Log request details in development
+      if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+        console.log(`[API Request] ${config.method?.toUpperCase()} ${config.url}`)
+      }
+      
       return config
     },
     (error) => {
-      console.error('Request interceptor error:', error)
+      console.error('[API] Request interceptor error:', error)
       return Promise.reject(error)
     }
   )
 
   // Response interceptor with token refresh
   api.interceptors.response.use(
-    (response: AxiosResponse) => response,
+    (response: AxiosResponse) => {
+      // Log successful responses in development
+      if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+        console.log(`[API Response] ${response.config.method?.toUpperCase()} ${response.config.url} - Status: ${response.status}`)
+      }
+      return response
+    },
     async (error) => {
       const originalRequest = error.config
+      
+      // Log error details
+      if (typeof window !== 'undefined') {
+        console.error('[API Error]', {
+          url: originalRequest?.url,
+          method: originalRequest?.method,
+          status: error.response?.status,
+          message: error.response?.data?.message || error.message
+        })
+      }
 
-      // Handle 401 Unauthorized
-      if (error.response?.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true
-
+      // Handle 401 Unauthorized - attempt token refresh
+      if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
         const tokenManager = TokenManager.getInstance()
         
+        // Check if we have a refresh token
+        const refreshToken = tokenManager.getRefreshToken()
+        if (!refreshToken) {
+          console.log('[API] No refresh token, redirecting to login')
+          if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+            window.location.href = '/login'
+          }
+          return Promise.reject(error)
+        }
+
+        // Mark request to prevent infinite retry
+        originalRequest._retry = true
+
         try {
+          console.log('[API] Attempting token refresh...')
           const newAccessToken = await tokenManager.refreshAccessToken()
           
           if (newAccessToken) {
-            // Update the authorization header
+            // Update the original request with new token
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
-            
-            // Retry the original request
+            console.log('[API] Token refreshed, retrying request...')
             return api(originalRequest)
           }
         } catch (refreshError) {
-          console.error('Token refresh failed in interceptor:', refreshError)
-        }
-
-        // If refresh failed, clear tokens and redirect
-        tokenManager.clearTokens()
-        
-        if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-          window.location.href = '/login'
+          console.error('[API] Token refresh failed:', refreshError)
+          tokenManager.clearTokens()
+          
+          // Redirect to login if refresh fails
+          if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+            window.location.href = '/login'
+          }
+          return Promise.reject(refreshError)
         }
       }
 
       // Handle network errors
-      if (error.code === 'ERR_NETWORK' || !error.response) {
-        console.error('Network error:', error.message, 'API_URL:', getApiBaseUrl())
+      if (!error.response && error.request) {
+        console.error('[API] Network error - no response received')
+      } else if (!error.response && !error.request) {
+        console.error('[API] Request configuration error:', error.message)
       }
 
       return Promise.reject(error)

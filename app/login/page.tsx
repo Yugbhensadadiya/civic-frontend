@@ -49,28 +49,75 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
+    
     try {
-      console.log("Login API:", `${getApiBaseUrl()}/api/login/`);
-      const response = await authApi.post('/api/login/', formData)
+      // Enhanced logging for debugging
+      const apiUrl = `${getApiBaseUrl()}/api/login/`
+      console.log('[Login] Attempting login to:', apiUrl)
+      console.log('[Login] Form data:', { email: formData.email, password: '***' })
+      
+      // Make API call with proper headers and method
+      const response = await authApi.post('/api/login/', {
+        email: formData.email.trim(),
+        password: formData.password
+      })
+      
       const data = response.data
+      console.log('[Login] Response:', data)
 
       if (data.success) {
+        // Store tokens securely
         localStorage.setItem('access_token', data.access_token)
         localStorage.setItem('refresh_token', data.refresh_token)
         localStorage.setItem('user', JSON.stringify(data.user))
+        
+        console.log('[Login] Authentication successful, redirecting...')
         const redirectPath = getRedirectPath(data.user)
         window.location.href = redirectPath
       } else {
+        // Handle specific error cases
         if (data.requires_verification) {
+          console.log('[Login] Email verification required')
           window.location.href = `/verify-email?email=${encodeURIComponent(data.email || formData.email)}`
           return
         }
+        
+        console.log('[Login] Login failed:', data.message)
         setError(data.message || 'Invalid email or password.')
       }
     } catch (error: any) {
-      console.error('Login error:', error)
-      const errorMessage = error.response?.data?.message || error.message || 'Cannot connect to server'
-      const statusCode = error.response?.status ? ` (${error.response.status})` : ''
+      console.error('[Login] Error:', error)
+      
+      // Enhanced error handling
+      let errorMessage = 'Cannot connect to server'
+      let statusCode = ''
+      
+      if (error.response) {
+        // Server responded with error status
+        statusCode = ` (${error.response.status})`
+        
+        if (error.response.data?.message) {
+          errorMessage = error.response.data.message
+        } else if (error.response.status === 401) {
+          errorMessage = 'Invalid credentials'
+        } else if (error.response.status === 403) {
+          errorMessage = 'Access forbidden'
+        } else if (error.response.status === 500) {
+          errorMessage = 'Server error'
+        } else if (error.response.status === 429) {
+          errorMessage = 'Too many requests'
+        }
+      } else if (error.request) {
+        // Request was made but no response received
+        errorMessage = 'Network error - no response'
+      } else if (error.code === 'ECONNREFUSED') {
+        errorMessage = 'Connection refused'
+      } else if (error.code === 'ENOTFOUND') {
+        errorMessage = 'Server not found'
+      } else if (error.message) {
+        errorMessage = error.message
+      }
+      
       setError(`${errorMessage}${statusCode}. Please try again.`)
     } finally {
       setLoading(false)
