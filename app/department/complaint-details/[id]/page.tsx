@@ -62,6 +62,16 @@ export default function ComplaintDetailsPage({ params }: { params: Promise<{ id:
   const [loadingOfficers, setLoadingOfficers] = useState(false)
   const [deptName, setDeptName] = useState('')
 
+  const complaintImageUrl = complaint?.upload_image
+    ? complaint.upload_image.startsWith('http')
+      ? complaint.upload_image
+      : `${API_BASE}${complaint.upload_image}`
+    : '/placeholder-image.png'
+
+  if (typeof window !== 'undefined' && complaint?.upload_image) {
+    console.log('Image URL:', complaintImageUrl)
+  }
+
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
     if (!token || token === 'undefined' || token === 'null') return
@@ -284,7 +294,7 @@ export default function ComplaintDetailsPage({ params }: { params: Promise<{ id:
                   className="block w-full text-left"
                 >
                   <img
-                    src={complaint.upload_image}
+                    src={complaintImageUrl}
                     alt="Uploaded complaint"
                     className="w-full h-60 object-contain rounded-md border border-gray-200 bg-gray-50 p-1"
                     style={{ maxHeight: '360px', minHeight: '250px' }}
@@ -415,7 +425,7 @@ export default function ComplaintDetailsPage({ params }: { params: Promise<{ id:
               <X className="w-4 h-4" />
             </button>
             <img
-              src={complaint.upload_image}
+              src={complaintImageUrl}
               alt="Uploaded complaint large"
               className="w-full h-auto max-h-[85vh] object-contain rounded-b-lg"
               onError={(e) => {
