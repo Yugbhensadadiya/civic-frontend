@@ -1,4 +1,4 @@
-import { refreshAccessToken } from './tokenRefresh'
+import { tokenRefreshService } from './tokenRefresh'
 
 // Check if token is expired (simple check)
 export const isTokenExpired = (token: string): boolean => {
@@ -23,7 +23,7 @@ export const getValidAccessToken = async (): Promise<string | null> => {
   
   if (isTokenExpired(token)) {
     console.log('Access token expired, attempting refresh...')
-    return await refreshAccessToken()
+    return await tokenRefreshService.refreshAccessToken()
   }
   
   return token
@@ -45,7 +45,7 @@ export const setupTokenRefresh = () => {
         // Refresh if less than 5 minutes remaining
         if (timeUntilExpiry < 300 && timeUntilExpiry > 0) {
           console.log('Token expiring soon, refreshing...')
-          await refreshAccessToken()
+          await tokenRefreshService.refreshAccessToken()
         }
       } catch (error) {
         console.error('Error checking token expiry:', error)

@@ -23,7 +23,7 @@ class admindashboardcard(APIView):
 ```
 
 ### API Endpoint
-- **URL**: `http://localhost:8000/api/admindashboardcard/`
+- **URL**: `/api/admindashboardcard/` (uses configured API base URL)
 - **Method**: GET
 - **Response Format**:
 ```json
