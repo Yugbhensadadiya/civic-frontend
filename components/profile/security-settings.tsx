@@ -29,7 +29,7 @@ export default function SecuritySettings() {
           return
         }
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/userdetails/`, {
+        const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/userdetails/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -119,7 +119,7 @@ export default function SecuritySettings() {
         throw new Error('No authentication token found')
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/change-password/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/change-password/`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -160,7 +160,7 @@ export default function SecuritySettings() {
         throw new Error('No authentication token found')
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/toggle-2fa/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/toggle-2fa/`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

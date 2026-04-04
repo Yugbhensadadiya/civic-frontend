@@ -76,7 +76,7 @@ export default function AllComplaintsPage() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [totalComplaints, setTotalComplaints] = useState(0)
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
   const itemsPerPage = 10
 
   const getHeaders = () => {

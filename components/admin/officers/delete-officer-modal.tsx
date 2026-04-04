@@ -29,7 +29,7 @@ export default function DeleteOfficerModal({ officer, isOpen, onClose, onDelete 
       setLoading(true)
       setError('')
       
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       const response = await fetch(`${API_BASE}/api/officerdelete/${officer.officer_id}/`, {
         method: 'DELETE',
       })

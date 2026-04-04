@@ -17,7 +17,7 @@ interface Complaints{
 export default function RecentComplaints() {
   const [complaint, setComplaint] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
   
   useEffect(() => {
     const fetchComplaints = async () => {

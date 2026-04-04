@@ -4,7 +4,7 @@
  */
 export function getApiBaseUrl(): string {
   // NEXT_PUBLIC_* variables are available in browser at runtime
-  const envUrl = process.env.NEXT_PUBLIC_API_URL
+  const envUrl = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
   const productionFallback = 'https://civic-backend-2.onrender.com'
   
   const apiUrl = envUrl || productionFallback
@@ -23,4 +23,4 @@ export function getApiBaseUrl(): string {
 // Export for use in components
 export const API_BASE_URL = typeof window !== 'undefined' 
   ? getApiBaseUrl() 
-  : (process.env.NEXT_PUBLIC_API_URL || 'https://civic-backend-2.onrender.com')
+  : ((typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com')

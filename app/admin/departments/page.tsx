@@ -58,7 +58,7 @@ export default function DepartmentsPage() {
     head_officer: ''
   })
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
   const itemsPerPage = 10
 
   // Year selector for dept-wise complaints chart

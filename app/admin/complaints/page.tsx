@@ -85,7 +85,7 @@ export default function AllComplaintsPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+        const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
         const res = await fetch(`${API_BASE_URL}/api/categories/`)
         if (!res.ok) throw new Error('Failed to fetch categories')
         const data = await res.json()
@@ -248,7 +248,7 @@ export default function AllComplaintsPage() {
     const pk = editingComplaint.id
     if (!pk) { alert('Cannot determine complaint id for update'); return }
     try {
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       const payload = {
         title: editingComplaint.title,
         Description: editingComplaint.Description,
@@ -288,7 +288,7 @@ export default function AllComplaintsPage() {
     const pk = deletingComplaint.id
     if (!pk) { alert('Cannot determine complaint id for delete'); return }
     try {
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       const res = await fetch(`${API_BASE_URL}/api/complaintdelete/${pk}/`, { method: 'DELETE' })
       if (!res.ok) throw new Error(`${res.status}`)
       setComplaintsList(prev => prev.filter(c => c.id !== pk))
@@ -538,7 +538,7 @@ export default function AllComplaintsPage() {
               {(selectedComplaint as any).image_video && (() => {
                 const imgUrl = (selectedComplaint as any).image_video
                 const isImg = /\.(jpg|jpeg|png|gif|webp)$/i.test(imgUrl)
-                const fullUrl = imgUrl.startsWith('http') ? imgUrl : `${process.env.NEXT_PUBLIC_API_URL}${imgUrl}`
+                const fullUrl = imgUrl.startsWith('http') ? imgUrl : `${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}${imgUrl}`
                 return (
                   <div className="bg-white rounded-xl border border-gray-100 p-5">
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Attached Media</p>

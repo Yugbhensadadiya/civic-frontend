@@ -24,7 +24,7 @@ export default function DashboardHeader() {
         return
       }
       
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       const response = await fetch(`${API_BASE_URL}/api/userdetails/`, {
         headers: {
           'Authorization': `Bearer ${token}`,

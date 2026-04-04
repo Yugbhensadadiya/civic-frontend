@@ -38,7 +38,7 @@ export default function DashboardCharts() {
 
   const fetchStatusData = async () => {
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       const response = await fetch(`${API_BASE}/api/complaints/status/`)
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
       setStatusData(await response.json())
@@ -50,7 +50,7 @@ export default function DashboardCharts() {
 
   const fetchTrendData = async (view: TrendView) => {
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       const token = localStorage.getItem('adminToken') || localStorage.getItem('access_token')
       const headers: Record<string, string> = { 'Content-Type': 'application/json' }
       if (token) headers['Authorization'] = `Bearer ${token}`

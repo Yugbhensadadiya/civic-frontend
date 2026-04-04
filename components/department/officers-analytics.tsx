@@ -53,7 +53,7 @@ export default function OfficersAnalytics() {
   const fetchAll = async () => {
     try {
       setLoading(true)
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null
       const headers: Record<string, string> = { "Content-Type": "application/json" }
       if (token && token !== "undefined" && token !== "null") {

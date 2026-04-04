@@ -8,7 +8,7 @@ import GoogleProvider from '@/components/GoogleProvider'
 import GoogleLoginBtn from '@/components/GoogleLoginBtn'
 import { useRouter } from 'next/navigation'
 
-const API = process.env.NEXT_PUBLIC_API_URL
+const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '' })

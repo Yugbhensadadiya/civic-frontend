@@ -6,7 +6,7 @@ import { ShieldCheck, CheckCircle2, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-const API = process.env.NEXT_PUBLIC_API_URL
+const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams()

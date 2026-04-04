@@ -31,7 +31,7 @@ export default function StatisticsSection() {
   const [error, setError] = useState<string | null>(null)
 
   const getApiBase = () => {
-    const env = process.env.NEXT_PUBLIC_API_URL as string
+    const env = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com' as string
     if (!env) throw new Error('Missing NEXT_PUBLIC_API_URL')
     return env
   }

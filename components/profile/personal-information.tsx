@@ -58,7 +58,7 @@ export default function PersonalInformation() {
           return
         }
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/userdetails/`, {
+        const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/userdetails/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ export default function PersonalInformation() {
         throw new Error('No authentication token found')
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/update-userdetails/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/update-userdetails/`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,

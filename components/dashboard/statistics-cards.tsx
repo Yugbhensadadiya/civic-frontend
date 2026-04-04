@@ -53,7 +53,7 @@ export default function StatisticsCards() {
   const [stats, setStats] = useState<StatData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
   
   useEffect(() => {
     fetchStatistics()

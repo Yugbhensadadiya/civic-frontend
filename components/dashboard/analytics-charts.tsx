@@ -27,7 +27,7 @@ export default function AnalyticsCharts() {
   })
   const [monthlyData, setMonthlyData] = useState<MonthlyData>({})
   const [loading, setLoading] = useState(true)
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
 
   useEffect(() => {
     const fetchData = async () => {

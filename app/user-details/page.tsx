@@ -44,7 +44,7 @@ export default function UserDetailsPage() {
       }
 
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL
+        const apiUrl = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
         const response = await fetch(`${apiUrl}/api/userdetails/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -117,7 +117,7 @@ export default function UserDetailsPage() {
         return
       }
       
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL
+      const apiUrl = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       console.log('[v0] Submitting user details to:', apiUrl)
       
       const response = await fetch(`${apiUrl}/api/update-userdetails/`, {

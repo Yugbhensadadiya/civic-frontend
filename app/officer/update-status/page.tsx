@@ -88,7 +88,7 @@ export default function StatusChangePage() {
   const [updating, setUpdating] = useState(false)
   const [updateError, setUpdateError] = useState('')
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
 
   const getHeaders = () => {
     const token = localStorage.getItem('access_token')

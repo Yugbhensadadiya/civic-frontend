@@ -106,7 +106,7 @@ export default function DepartmentOverviewPage() {
   const [error, setError] = useState<string | null>(null)
   const [refreshing, setRefreshing] = useState(false)
 
-  const API = process.env.NEXT_PUBLIC_API_URL
+  const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
 
   const fetchData = useCallback(async () => {
     try {

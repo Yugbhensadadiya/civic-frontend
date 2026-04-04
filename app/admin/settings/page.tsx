@@ -82,7 +82,7 @@ export default function AdminSettingsPage() {
       setQueryLoading(true)
       setQueryError("")
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/contact/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/contact/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ export default function AdminSettingsPage() {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/notification-settings/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/notification-settings/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -133,7 +133,7 @@ export default function AdminSettingsPage() {
   const fetchProfileData = async () => {
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/profile/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/profile/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -181,7 +181,7 @@ export default function AdminSettingsPage() {
   const fetchSystemSettings = async () => {
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/system-settings/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/system-settings/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -224,7 +224,7 @@ export default function AdminSettingsPage() {
       const token = localStorage.getItem('access_token')
       
       if (section === "profile" || section === "all") {
-        const profileResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/update-profile/`, {
+        const profileResponse = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/update-profile/`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -251,7 +251,7 @@ export default function AdminSettingsPage() {
       }
       
       if (section === "system" || section === "all") {
-        const systemResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/system-settings/`, {
+        const systemResponse = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/system-settings/`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -273,7 +273,7 @@ export default function AdminSettingsPage() {
       }
 
       if (section === "notifications" || section === "all") {
-        const notificationsResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/notification-settings/`, {
+        const notificationsResponse = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/notification-settings/`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -307,7 +307,7 @@ export default function AdminSettingsPage() {
     try {
       const token = localStorage.getItem('access_token')
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/contact/?id=${queryId}`,
+        `${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/contact/?id=${queryId}`,
         { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } }
       )
       if (res.ok) {

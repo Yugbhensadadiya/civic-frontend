@@ -74,7 +74,7 @@ export default function ActivityLog() {
         }
 
         // Fetch user activity from backend
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user-activity/`, {
+        const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/user-activity/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

@@ -27,7 +27,7 @@ export default function ComplaintDistributionChart() {
   useEffect(() => {
     async function fetchChartData() {
       try {
-        const API_BASE = process.env.NEXT_PUBLIC_API_URL
+        const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
         const token = localStorage.getItem('access_token')
         
         const headers = {

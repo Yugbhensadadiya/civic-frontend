@@ -44,7 +44,7 @@ export default function AnalyticsDashboard() {
       setLoading(true)
       setError(null)
       
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       
       // Fetch status data
       const statusResponse = await fetch(`${API_BASE}/api/complaintstatus/`)

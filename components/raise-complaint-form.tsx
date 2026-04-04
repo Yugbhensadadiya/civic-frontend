@@ -62,7 +62,7 @@ export default function RaiseComplaintForm() {
 
   // Load departments from DB
   useEffect(() => {
-    const API_BASE = process.env.NEXT_PUBLIC_API_URL
+    const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
     fetch(`${API_BASE}/api/department/list/`)
       .then(r => r.ok ? r.json() : null)
       .then(data => {
@@ -243,7 +243,7 @@ export default function RaiseComplaintForm() {
         formPayload.append('image_video', uploadedFiles[0])
       }
 
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
       const endpoint = `${API_BASE_URL}/api/raisecomplaint/`
 
       // Add retry logic for server errors

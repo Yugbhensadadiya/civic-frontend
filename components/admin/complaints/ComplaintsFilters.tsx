@@ -41,7 +41,7 @@ export default function ComplaintsFilters({
   const [loading, setLoading] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL as string
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com' as string
   if (!API_BASE) throw new Error('Missing NEXT_PUBLIC_API_URL')
 
   useEffect(() => {

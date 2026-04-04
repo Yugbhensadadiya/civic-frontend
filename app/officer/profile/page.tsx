@@ -50,7 +50,7 @@ export default function OfficerProfilePage() {
   const [availabilityUpdating, setAvailabilityUpdating] = useState(false)
   const [showPasswordModal, setShowPasswordModal] = useState(false)
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
 
   // Fetch officer profile
   const fetchProfile = async () => {

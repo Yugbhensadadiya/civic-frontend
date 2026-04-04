@@ -42,7 +42,7 @@ export default function MyComplaintsPage() {
   
     // Use environment variable for API base so we can switch hosts/protocols.
     // Resolve at runtime to match the page protocol and avoid mixed-content issues.
-    const API_BASE = process.env.NEXT_PUBLIC_API_URL
+    const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
   
   useEffect(() => {
     const fetchComplaints = async () => {

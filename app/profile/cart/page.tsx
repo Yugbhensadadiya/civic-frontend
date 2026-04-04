@@ -56,7 +56,7 @@ export default function CartPage() {
         }
 
         // Fetch cart items from API
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart/`, {
+        const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/cart/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

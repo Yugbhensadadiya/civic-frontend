@@ -145,7 +145,7 @@ export default function DepartmentDashboard() {
   // Store all years' monthly data keyed by year
   const [allMonthlyData, setAllMonthlyData] = useState<Record<number, Record<string, number>>>({})
 
-  const API = process.env.NEXT_PUBLIC_API_URL
+  const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
 
   const fetchData = useCallback(async () => {
     try {

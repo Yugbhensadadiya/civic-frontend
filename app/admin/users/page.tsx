@@ -60,7 +60,7 @@ export default function AdminUsersPage() {
   })
   const router = useRouter()
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
 
   // Analytics data
   const [analyticsData, setAnalyticsData] = useState({
