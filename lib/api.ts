@@ -1,12 +1,8 @@
 import axios from 'axios'
+import { getApiBaseUrl } from './config'
 
-// Ensure API base URL is always defined with production fallback
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://civic-backend-2.onrender.com'
-
-// Debug log to verify API base URL
-if (typeof window !== 'undefined') {
-  console.log('API BASE URL (api.ts):', API_BASE_URL)
-}
+// Get API base URL safely at runtime
+const API_BASE_URL = getApiBaseUrl()
 
 const api = axios.create({
   baseURL: API_BASE_URL,
