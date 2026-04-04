@@ -7,8 +7,8 @@ import { User, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import GoogleProvider from '@/components/GoogleProvider'
 import GoogleLoginBtn from '@/components/GoogleLoginBtn'
 import { useRouter } from 'next/navigation'
-import api from '../../lib/axios'
-import { API_BASE_URL } from '../../lib/config'
+import { authApi } from '../../lib/authApi'
+import { getApiBaseUrl } from '../../lib/config'
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' })
@@ -50,8 +50,8 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
     try {
-      console.log("Login API:", `${API_BASE_URL}/api/login/`);
-      const response = await api.post('/api/login/', formData)
+      console.log("Login API:", `${getApiBaseUrl()}/api/login/`);
+      const response = await authApi.post('/api/login/', formData)
       const data = response.data
 
       if (data.success) {
@@ -61,7 +61,6 @@ export default function LoginPage() {
         const redirectPath = getRedirectPath(data.user)
         window.location.href = redirectPath
       } else {
-        // If email not verified, redirect to signup OTP screen
         if (data.requires_verification) {
           window.location.href = `/verify-email?email=${encodeURIComponent(data.email || formData.email)}`
           return
@@ -69,7 +68,6 @@ export default function LoginPage() {
         setError(data.message || 'Invalid email or password.')
       }
     } catch (error: any) {
-      // Enhanced error logging for debugging
       console.error('Login error:', error)
       const errorMessage = error.response?.data?.message || error.message || 'Cannot connect to server'
       const statusCode = error.response?.status ? ` (${error.response.status})` : ''

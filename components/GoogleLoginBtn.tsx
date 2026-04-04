@@ -2,7 +2,7 @@
 
 import { GoogleLogin } from "@react-oauth/google"
 import { useRouter } from "next/navigation"
-import api from "../lib/axios"
+import { authApi } from "../lib/authApi"
 
 export default function GoogleLoginBtn() {
   const router = useRouter()
@@ -25,7 +25,7 @@ export default function GoogleLoginBtn() {
 
   const handleSuccess = async (credentialResponse: any) => {
     try {
-      const response = await api.post('/api/google-login/', { token: credentialResponse.credential })
+      const response = await authApi.post('/api/google-login/', { token: credentialResponse.credential })
       const data = response.data
       
       if (data.success) {
