@@ -239,48 +239,10 @@ export default function RaiseComplaintForm() {
       })
 
       const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
-      let cloudinaryUrl = ''
-
+      
       if (uploadedFiles.length > 0) {
-        // Fetch signature from backend safely
-        const token = localStorage.getItem('access_token')
-        const sigResponse = await fetch(`${API_BASE_URL}/api/cloudinary-signature/`, {
-          headers: token ? { "Authorization": `Bearer ${token}` } : {}
-        })
-        if (!sigResponse.ok) {
-          throw new Error('Failed to securely fetch Cloudinary signature from Server')
-        }
-        
-        const sigData = await sigResponse.json()
-        
-        // Push File specifically to Cloudinary
-        const cloudPayload = new FormData()
-        cloudPayload.append('file', uploadedFiles[0])
-        cloudPayload.append('api_key', sigData.api_key)
-        cloudPayload.append('timestamp', String(sigData.timestamp))
-        cloudPayload.append('signature', sigData.signature)
-        
-        console.log("=== CLOUDINARY UPLOAD ===")
-        console.log("String to sign parameters:", { timestamp: sigData.timestamp })
-        console.log("Generated signature:", sigData.signature)
-        
-        // Execute direct REST request avoiding the Proxy Server limits
-        const cloudUploadResponse = await fetch(`https://api.cloudinary.com/v1_1/${sigData.cloud_name}/image/upload`, {
-          method: 'POST',
-          body: cloudPayload
-        })
-        
-        const cloudUploadData = await cloudUploadResponse.json()
-        if (!cloudUploadResponse.ok) {
-           throw new Error(cloudUploadData.error?.message || 'Cloudinary upload failed')
-        }
-        
-        // Cache secure URL
-        cloudinaryUrl = cloudUploadData.secure_url
-      }
-
-      if (cloudinaryUrl) {
-        formPayload.append('image_video', cloudinaryUrl) // Ship the public URL natively inside the JSON Form
+        // Option A Restored: Pipe standard binary packet globally to backend explicitly!
+        formPayload.append('image_video', uploadedFiles[0])
       }
 
       const endpoint = `${API_BASE_URL}/api/raisecomplaint/`
