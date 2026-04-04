@@ -376,8 +376,6 @@ export default function RaiseComplaintForm() {
         errorMessage = 'Complaint submission endpoint not found. Please contact support.'
       } else if (error.message.includes('Server error (400)')) {
         errorMessage = 'Invalid data provided. Please check all fields and try again.'
-      } else if (error.message.includes('id') || error.message.includes('already exists')) {
-        errorMessage = 'Complaint ID conflict. Please try submitting again.'
       } else if (error.message.includes('Server returned an error page')) {
         errorMessage = 'Server is experiencing issues. Please try again later.'
       } else if (error.message.includes('Invalid response format')) {
