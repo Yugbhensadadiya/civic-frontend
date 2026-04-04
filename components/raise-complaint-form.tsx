@@ -411,27 +411,36 @@ export default function RaiseComplaintForm() {
       
       if (error.message.includes('Invalid Signature') || error.message.includes('signature')) {
         errorMessage = 'Upload security signature mismatch. Please ensure the Backend API Secret matches Cloudinary perfectly.'
+        console.error("%c[DEBUG HINT - SIGNATURE]", "color: orange; font-weight: bold", "Check your Render configuration for CLOUDINARY_API_SECRET. If missing or formatted with a space, Django will hash the wrong signature against Cloudinary. Ensure it exactly matches your Cloudinary Dashboard Secret.")
       } else if (error.message.includes('Expired') || error.message.includes('timestamp')) {
         errorMessage = 'Your upload session expired. Please refresh the page and try submitting the image again.'
+        console.error("%c[DEBUG HINT - TIMESTAMP]", "color: orange; font-weight: bold", "Check server timezone if persistent. Cloudinary timestamps must match Unix Epoch accurately.")
       } else if (error.message.includes('Missing env variables') || error.message.includes('Must supply api_key')) {
         errorMessage = 'Server configuration error: Standard environment variables are missing on Render.'
+        console.error("%c[DEBUG HINT - ENV VARS]", "color: orange; font-weight: bold", "Your Django setup on Render is missing key variables: CLOUDINARY_CLOUD_NAME or CLOUDINARY_API_KEY. Inject them and deploy again.")
       } else if (error.message.includes('Cloudinary') || error.message.includes('upload failed')) {
         errorMessage = 'Image upload to Cloudinary directly failed. Please check your network or file format.'
+        console.error("%c[DEBUG HINT - UPLOAD FAILURE]", "color: orange; font-weight: bold", "Cloudinary rejected the POST request natively. Check network CORS limits or ensure the file isn't fundamentally broken/too large.")
       } else if (error.message.includes('CORS') || error.message.includes('Failed to fetch')) {
         errorMessage = 'Network error: Connection blocked by CORS policies or Backend is offline.'
+        console.error("%c[DEBUG HINT - CORS/OFFLINE]", "color: orange; font-weight: bold", "If NEXT_PUBLIC_API_URL is wrong, fetch will crash here. Also check Django CORS_ALLOW_ALL_ORIGINS = True and verify the backend Render instance is actually awake!")
       } else if (error.message.includes('Database connection') || error.message.includes('psycopg2') || error.message.includes('relation "complaints_') || error.message.includes('Neon')) {
         errorMessage = 'Database sync error: PostgreSQL (Neon DB) is disconnected or requires migrations.'
+        console.error("%c[DEBUG HINT - NEON DB]", "color: orange; font-weight: bold", "Django couldn't sync with PostgreSQL. Ensure DATABASE_URL is explicitly set for Neon in Render, and run 'python manage.py migrate' natively inside Render CLI to fix mapping.")
       } else if (error.message.includes('Server error (500)') || error.message.includes('Internal Server Error')) {
         errorMessage = 'Server is currently experiencing technical difficulties. Please check your backend logs.'
+        console.error("%c[DEBUG HINT - BACKEND 500]", "color: orange; font-weight: bold", "Server crashed on `/api/raisecomplaint/` ingestion. Check your Render Logs natively for the stack trace.")
       } else if (error.message.includes('Server error (404)')) {
         errorMessage = 'Complaint submission endpoint not found. Please contact support.'
+        console.error("%c[DEBUG HINT - 404 URL]", "color: orange; font-weight: bold", "Cannot locate endpoint. Confirm API_BASE_URL resolves specifically to `/api/raisecomplaint/` cleanly.")
       } else if (error.message.includes('Server error (400)')) {
         errorMessage = 'Invalid data provided. Please check all fields and try again.'
+        console.error("%c[DEBUG HINT - 400 VALIDATION]", "color: orange; font-weight: bold", "Django REST validation failed parsing Payload contents. Ensure null validation matches models.py formats structure.")
       } else if (error.message.includes('Server returned an error page')) {
         errorMessage = 'Server is experiencing issues. Please try again later.'
       } else if (error.message.includes('Invalid response format')) {
         errorMessage = 'Server response format is invalid. Please contact support.'
-      } else if (error.message) {
+      } else {
         errorMessage = error.message
       }
       
