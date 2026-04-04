@@ -409,8 +409,20 @@ export default function RaiseComplaintForm() {
       // Provide user-friendly error messages
       let errorMessage = 'Failed to submit complaint. Please try again.'
       
-      if (error.message.includes('Server error (500)') || error.message.includes('Internal Server Error')) {
-        errorMessage = 'Server is currently experiencing technical difficulties. Please try again in a few minutes.'
+      if (error.message.includes('Invalid Signature') || error.message.includes('signature')) {
+        errorMessage = 'Upload security signature mismatch. Please ensure the Backend API Secret matches Cloudinary perfectly.'
+      } else if (error.message.includes('Expired') || error.message.includes('timestamp')) {
+        errorMessage = 'Your upload session expired. Please refresh the page and try submitting the image again.'
+      } else if (error.message.includes('Missing env variables') || error.message.includes('Must supply api_key')) {
+        errorMessage = 'Server configuration error: Standard environment variables are missing on Render.'
+      } else if (error.message.includes('Cloudinary') || error.message.includes('upload failed')) {
+        errorMessage = 'Image upload to Cloudinary directly failed. Please check your network or file format.'
+      } else if (error.message.includes('CORS') || error.message.includes('Failed to fetch')) {
+        errorMessage = 'Network error: Connection blocked by CORS policies or Backend is offline.'
+      } else if (error.message.includes('Database connection') || error.message.includes('psycopg2') || error.message.includes('relation "complaints_') || error.message.includes('Neon')) {
+        errorMessage = 'Database sync error: PostgreSQL (Neon DB) is disconnected or requires migrations.'
+      } else if (error.message.includes('Server error (500)') || error.message.includes('Internal Server Error')) {
+        errorMessage = 'Server is currently experiencing technical difficulties. Please check your backend logs.'
       } else if (error.message.includes('Server error (404)')) {
         errorMessage = 'Complaint submission endpoint not found. Please contact support.'
       } else if (error.message.includes('Server error (400)')) {
