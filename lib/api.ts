@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { getApiBaseUrl } from './config'
+import { tokenRefreshService } from './tokenRefresh'
+import { handleError } from './errorHandler'
 
 const api = axios.create({
   baseURL: typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com',
@@ -23,26 +25,49 @@ api.interceptors.request.use(
   }
 )
 
-// Response interceptor to handle common errors
+// Response interceptor to handle common errors and token refresh
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Clear invalid token
+  async (error) => {
+    const originalRequest = error.config
+
+    // Handle 401 Unauthorized
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true
+
+      try {
+        // Attempt to refresh the token
+        const newAccessToken = await tokenRefreshService.refreshAccessToken()
+        
+        if (newAccessToken) {
+          // Update the authorization header with new token
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
+          
+          // Retry the original request
+          return api(originalRequest)
+        }
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError)
+      }
+
+      // If refresh failed, clear tokens and redirect to login
       localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
       localStorage.removeItem('adminToken')
       localStorage.removeItem('departmentToken')
+      localStorage.removeItem('user')
       
-      // Redirect to login if needed
       if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
         window.location.href = '/login'
       }
     }
+    
     // Log detailed error info for debugging
     if (error.code === 'ERR_NETWORK' || !error.response) {
       const currentBaseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com'
       console.error('Network error or no response in API:', error.message, 'API_BASE_URL:', currentBaseUrl)
     }
+    
     return Promise.reject(error)
   }
 )
