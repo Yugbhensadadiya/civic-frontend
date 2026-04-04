@@ -31,10 +31,9 @@ export default function StatisticsSection() {
   const [error, setError] = useState<string | null>(null)
 
   const getApiBase = () => {
-    const env = process.env.NEXT_PUBLIC_API_URL || ''
-    if (env) return env
-    if (typeof window !== 'undefined') return `${window.location.protocol}//${window.location.hostname}:8000`
-    return 'http://127.0.0.1:8000'
+    const env = process.env.NEXT_PUBLIC_API_URL as string
+    if (!env) throw new Error('Missing NEXT_PUBLIC_API_URL')
+    return env
   }
   
   useEffect(() => {

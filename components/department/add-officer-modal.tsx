@@ -38,7 +38,7 @@ const ROLE_BADGE: Record<string, string> = {
 }
 
 export default function AddOfficerModal({ open, onClose, onSuccess }: AddOfficerModalProps) {
-  const API = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+  const API = process.env.NEXT_PUBLIC_API_URL
 
   const [formData, setFormData] = useState<FormData>({
     officer_id: '', name: '', email: '', phone: '',

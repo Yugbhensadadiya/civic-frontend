@@ -18,7 +18,7 @@ export default function AssignedComplaintsPage() {
   useEffect(() => {
     const token = localStorage.getItem('access_token')
     if (!token || token === 'undefined' || token === 'null') return
-    const API = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+    const API = process.env.NEXT_PUBLIC_API_URL
     fetch(`${API}/api/department/dashboard/`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data?.department?.category) setDeptName(data.department.category) })

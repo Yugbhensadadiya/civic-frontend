@@ -37,7 +37,7 @@ export default function ComplaintsFilter({
 }: ComplaintsFilterProps) {
   const [categories, setCategories] = useState<Array<{ id: number; name: string }>>([])
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
     let mounted = true

@@ -58,7 +58,7 @@ export default function PersonalInformation() {
           return
         }
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/userdetails/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/userdetails/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ export default function PersonalInformation() {
         throw new Error('No authentication token found')
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/update-userdetails/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/update-userdetails/`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,

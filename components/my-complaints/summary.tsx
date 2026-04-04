@@ -38,7 +38,7 @@ export default function ComplaintsSummary() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL
 
   const fetchStats = async () => {
     setLoading(true); setError(false)

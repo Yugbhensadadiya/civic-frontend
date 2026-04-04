@@ -52,7 +52,7 @@ export default function DepartmentLayout({ children }: { children: React.ReactNo
     // Fetch real department name from dashboard API
     const token = localStorage.getItem('access_token')
     if (token && token !== 'undefined' && token !== 'null') {
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL
       fetch(`${API_BASE}/api/department/dashboard/`, {
         headers: { Authorization: `Bearer ${token}` },
       })

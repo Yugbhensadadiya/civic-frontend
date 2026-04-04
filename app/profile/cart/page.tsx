@@ -56,7 +56,7 @@ export default function CartPage() {
         }
 
         // Fetch cart items from API
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/cart/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

@@ -44,7 +44,7 @@ export default function UserDetailsPage() {
       }
 
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL
         const response = await fetch(`${apiUrl}/api/userdetails/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -117,7 +117,7 @@ export default function UserDetailsPage() {
         return
       }
       
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL
       console.log('[v0] Submitting user details to:', apiUrl)
       
       const response = await fetch(`${apiUrl}/api/update-userdetails/`, {

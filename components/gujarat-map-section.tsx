@@ -19,7 +19,7 @@ interface DistrictData {
 export default function GujaratMapSection() {
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictData | null>(null)
   const [loading, setLoading] = useState(false)
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
   const handleDistrictClick = async (districtName: string) => {
     setLoading(true)

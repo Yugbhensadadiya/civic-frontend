@@ -40,7 +40,7 @@ export default function OfficerDashboard() {
   const [monthlyData, setMonthlyData] = useState<MonthlyData[]>([])
   const [loading, setLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL
 
   const defaultStats: DashboardStats = {
     totalComplaints: 0,

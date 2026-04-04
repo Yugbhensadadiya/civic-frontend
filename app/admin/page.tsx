@@ -11,7 +11,7 @@ import {
 } from 'lucide-react'
 import StatsCard from '@/components/ui/stats-card'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL
 const CURRENT_YEAR = new Date().getFullYear()
 const YEAR_OPTIONS = [
   { label: 'Last 12 Months', value: 'rolling' },

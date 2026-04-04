@@ -41,12 +41,8 @@ export default function ComplaintsFilters({
   const [loading, setLoading] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
 
-  const API_BASE = (() => {
-    const env = (process.env.NEXT_PUBLIC_API_URL as string) || ''
-    if (env) return env
-    if (typeof window !== 'undefined') return `${window.location.protocol}//${window.location.hostname}:8000`
-    return 'http://127.0.0.1:8000'
-  })()
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL as string
+  if (!API_BASE) throw new Error('Missing NEXT_PUBLIC_API_URL')
 
   useEffect(() => {
     let mounted = true

@@ -39,7 +39,7 @@ const priorityColors: Record<string, string> = {
   'Low':    'bg-green-500',
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL
 
 function getAuthHeaders(): Record<string, string> {
   const token = typeof window !== 'undefined'
@@ -65,7 +65,7 @@ export default function ComplaintDetailsPage({ params }: { params: Promise<{ id:
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
     if (!token || token === 'undefined' || token === 'null') return
-    const API_BASE_LOCAL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+    const API_BASE_LOCAL = process.env.NEXT_PUBLIC_API_URL
     fetch(`${API_BASE_LOCAL}/api/department/dashboard/`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data?.department?.category) setDeptName(data.department.category) })

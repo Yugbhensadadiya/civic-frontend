@@ -38,7 +38,7 @@ export default function ProfileOverview() {
           return
         }
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'}/api/userdetails/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/userdetails/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

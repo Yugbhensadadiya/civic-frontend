@@ -62,7 +62,7 @@ export default function RaiseComplaintForm() {
 
   // Load departments from DB
   useEffect(() => {
-    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL
     fetch(`${API_BASE}/api/department/list/`)
       .then(r => r.ok ? r.json() : null)
       .then(data => {
@@ -243,7 +243,7 @@ export default function RaiseComplaintForm() {
         formPayload.append('image_video', uploadedFiles[0])
       }
 
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
       const endpoint = `${API_BASE_URL}/api/raisecomplaint/`
 
       // Add retry logic for server errors

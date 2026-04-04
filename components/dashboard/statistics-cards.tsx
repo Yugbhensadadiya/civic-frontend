@@ -53,7 +53,7 @@ export default function StatisticsCards() {
   const [stats, setStats] = useState<StatData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   
   useEffect(() => {
     fetchStatistics()

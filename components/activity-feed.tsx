@@ -37,7 +37,7 @@ export default function ActivityFeed() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const getApiBase = () => {
-    return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+    return process.env.NEXT_PUBLIC_API_URL
   }
 
 useEffect(() => {

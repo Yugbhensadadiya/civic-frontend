@@ -29,7 +29,7 @@ interface ComplaintDetailsModalProps {
   onClose: () => void
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL
 
 export default function ComplaintDetailsModal({ complaint, onClose }: { complaint: Complaint; onClose: () => void }) {
   const [activeTab, setActiveTab] = useState('details')

@@ -44,7 +44,7 @@ export default function AnalyticsDashboard() {
       setLoading(true)
       setError(null)
       
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL
       
       // Fetch status data
       const statusResponse = await fetch(`${API_BASE}/api/complaintstatus/`)
