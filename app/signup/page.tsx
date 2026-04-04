@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 const API = process.env.NEXT_PUBLIC_API_URL
 
 export default function SignupPage() {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '', role: 'Civic-User' })
+  const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '' })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -49,7 +49,7 @@ export default function SignupPage() {
       const res = await fetch(`${API}/api/register/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ ...formData, role: 'Civic-User' })
       })
       const data = await res.json()
       if (data.success) {
@@ -292,15 +292,8 @@ export default function SignupPage() {
 
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-foreground">Role</label>
-              <div className="relative group">
-                <User className="absolute left-3 top-3.5 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                <select value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})}
-                  className="w-full pl-10 pr-4 py-3.5 rounded-xl border-2 border-input bg-background/50 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none cursor-pointer" required>
-                  <option value="Civic-User">Civic User</option>
-                  <option value="Department-User">Department User</option>
-                  <option value="Officer">Officer</option>
-                  <option value="Admin-User">Admin User</option>
-                </select>
+              <div className="rounded-xl border-2 border-input bg-background/50 px-4 py-3 text-sm text-foreground">
+                Civic User
               </div>
             </div>
 

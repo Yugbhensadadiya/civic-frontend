@@ -2,6 +2,7 @@ import UtilityBar from '@/components/utility-bar'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import RaiseComplaintForm from '@/components/raise-complaint-form'
+import RequireAuth from '@/components/auth/RequireAuth'
 
 export const metadata = {
   title: 'Raise a Civic Complaint | Gujarat CivicTrack',
@@ -15,12 +16,13 @@ export const viewport = {
 
 export default function RaiseComplaintPage() {
   return (
-    <main className="min-h-screen bg-background">
-      <UtilityBar />
-      <Header />
-      
-      {/* Breadcrumb */}
-      <section className="bg-muted/30 border-b border-border">
+    <RequireAuth>
+      <main className="min-h-screen bg-background">
+        <UtilityBar />
+        <Header />
+        
+        {/* Breadcrumb */}
+        <section className="bg-muted/30 border-b border-border">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <a href="/" className="hover:text-primary transition-colors">Home</a>
@@ -47,5 +49,6 @@ export default function RaiseComplaintPage() {
 
       <Footer />
     </main>
+    </RequireAuth>
   )
 }
