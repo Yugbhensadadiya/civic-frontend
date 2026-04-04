@@ -68,10 +68,6 @@ export default function ComplaintDetailsPage({ params }: { params: Promise<{ id:
       : `${API_BASE}${complaint.upload_image}`
     : '/placeholder-image.png'
 
-  if (typeof window !== 'undefined' && complaint?.upload_image) {
-    console.log('Image URL:', complaintImageUrl)
-  }
-
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
     if (!token || token === 'undefined' || token === 'null') return
