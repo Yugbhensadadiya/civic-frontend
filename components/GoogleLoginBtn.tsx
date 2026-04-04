@@ -56,8 +56,9 @@ export default function GoogleLoginBtn() {
       onError={handleError}
       theme="outline"
       size="large"
-      text="continue_with"
+      text="signin_with"
       shape="rectangular"
+      width={250}
       useOneTap={false}
       auto_select={false}
     />
