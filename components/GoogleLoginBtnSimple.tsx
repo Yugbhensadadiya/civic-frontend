@@ -121,41 +121,29 @@ export default function GoogleLoginBtn() {
     }
   }
 
-  const handleError = (error: any): void => {
-    console.error('❌ Google OAuth error:', error)
-    
-    // Handle different types of OAuth errors
-    if (error.error === 'popup_closed_by_user') {
-      console.log('👤 User closed Google login popup')
-      return // Don't show error for user closing popup
-    } else if (error.error === 'access_denied') {
-      alert('Google login was denied. Please try again.')
-    } else if (error.error === 'popup_blocked') {
-      alert('Google login popup was blocked. Please allow popups for this site.')
-    } else {
-      alert('Google login error: ' + (error.message || 'Unknown error'))
-    }
+  const handleError = (): void => {
+    console.error('❌ Google OAuth error occurred')
+    alert('Google login error: Please try again.')
   }
 
   return (
     <div className="relative">
-      <GoogleLogin
-        onSuccess={handleSuccess}
-        onError={handleError}
-        theme="outline"
-        size="large"
-        text="signin_with"
-        shape="rectangular"
-        width={250}
-        useOneTap={false}
-        auto_select={false}
-        disabled={isLoading}
-      />
-      
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 rounded-lg">
+      {isLoading ? (
+        <div className="flex items-center justify-center bg-white bg-opacity-75 rounded-lg p-4">
           <div className="text-blue-600">Processing Google login...</div>
         </div>
+      ) : (
+        <GoogleLogin
+          onSuccess={handleSuccess}
+          onError={handleError}
+          theme="outline"
+          size="large"
+          text="signin_with"
+          shape="rectangular"
+          width={250}
+          useOneTap={false}
+          auto_select={false}
+        />
       )}
     </div>
   )
