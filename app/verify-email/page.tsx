@@ -71,7 +71,7 @@ function VerifyEmailContent() {
           else window.location.href = '/dashboard'
         }, 1500)
       } else {
-        setError(data.message || 'Invalid OTP')
+        setError((typeof data.error === 'string' ? data.error : null) || data.message || 'Invalid OTP')
         setOtp(['', '', '', '', '', ''])
         otpRefs.current[0]?.focus()
       }

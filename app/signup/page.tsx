@@ -46,7 +46,7 @@ export default function SignupPage() {
     try {
       const res = await fetch(`${API}/api/register/`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           username,
           email,
@@ -56,9 +56,10 @@ export default function SignupPage() {
           role: 'Civic-User',
         }),
       })
+      const text = await res.text()
       let data: Record<string, unknown> = {}
       try {
-        data = await res.json()
+        data = text ? (JSON.parse(text) as Record<string, unknown>) : {}
       } catch {
         setError('Invalid response from server. Please try again.')
         return
@@ -77,8 +78,13 @@ export default function SignupPage() {
         return
       }
       setError(typeof data.message === 'string' ? data.message : 'Registration failed.')
-    } catch {
-      setError('Network error. Please try again.')
+    } catch (err) {
+      console.error('[Signup] register request failed:', err)
+      setError(
+        err instanceof Error && err.message
+          ? err.message
+          : 'Network error. Please try again.'
+      )
     } finally {
       setLoading(false)
     }
