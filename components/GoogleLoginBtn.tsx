@@ -93,6 +93,9 @@ export default function GoogleLoginBtn() {
       width={250}
       useOneTap={false}
       auto_select={false}
+      ux_mode="popup"
+      use_fedcm_for_button={false}
+      use_fedcm_for_prompt={false}
     />
   )
 }
