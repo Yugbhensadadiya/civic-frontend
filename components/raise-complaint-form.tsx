@@ -8,26 +8,6 @@ import { MapPin, Upload, X, AlertCircle, Play } from 'lucide-react'
 
 const ComplaintMap = dynamic(() => import('./complaint-map'), { ssr: false })
 
-// Fallback list if API is unavailable
-const FALLBACK_DEPARTMENTS = [
-  'Roads & Infrastructure',
-  'Traffic & Road Safety',
-  'Water Supply',
-  'Sewerage & Drainage',
-  'Sanitation & Garbage',
-  'Street Lighting',
-  'Public Health Hazard',
-  'Parks & Public Spaces',
-  'Stray Animals',
-  'Illegal Construction',
-  'Encroachment',
-  'Public Property Damage',
-  'Noise Pollution',
-  'Electricity & Power Issues',
-  'Street Vendor / Hawker Issues',
-  'Other',
-]
-
 const districts = [
   'Ahmedabad', 'Amreli', 'Anand', 'Aravalli', 'Banaskantha', 'Bharuch',
   'Bhavnagar', 'Botad', 'Chhota Udaipur', 'Dahod', 'Dang', 'Devbhoomi Dwarka',
@@ -37,8 +17,11 @@ const districts = [
   'Tapi', 'Vadodara', 'Valsad'
 ]
 
+type DepartmentOption = { id: number; name: string }
+
 export default function RaiseComplaintForm() {
-  const [departments, setDepartments] = useState<string[]>(FALLBACK_DEPARTMENTS)
+  const [departments, setDepartments] = useState<DepartmentOption[]>([])
+  const [departmentsMessage, setDepartmentsMessage] = useState('')
   const [formData, setFormData] = useState({
     title: '',
     Category: '',
@@ -60,17 +43,32 @@ export default function RaiseComplaintForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
 
-  // Load departments from DB
+  // Load departments from DB (Neon via Render API)
   useEffect(() => {
     const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
-    fetch(`${API_BASE}/api/department/list/`)
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
-          setDepartments(data.map((d: any) => d.name))
+    setDepartmentsMessage('')
+    fetch(`${API_BASE}/api/departments/`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('fetch failed'))))
+      .then((data) => {
+        if (!Array.isArray(data) || data.length === 0) {
+          setDepartments([])
+          setDepartmentsMessage('No departments available')
+          return
+        }
+        const normalized: DepartmentOption[] = data
+          .filter((d: any) => d && (typeof d.id === 'number' || typeof d.id === 'string') && typeof d.name === 'string')
+          .map((d: any) => ({ id: Number(d.id), name: d.name }))
+        if (normalized.length === 0) {
+          setDepartments([])
+          setDepartmentsMessage('No departments available')
+        } else {
+          setDepartments(normalized)
         }
       })
-      .catch(() => { /* keep fallback */ })
+      .catch(() => {
+        setDepartments([])
+        setDepartmentsMessage('No departments available')
+      })
   }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -451,12 +449,18 @@ export default function RaiseComplaintForm() {
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 rounded-lg border border-input bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
                   required
+                  disabled={departments.length === 0}
                 >
                   <option value="">Select department</option>
-                  {departments.map(dept => (
-                    <option key={dept} value={dept}>{dept}</option>
+                  {departments.map((dept) => (
+                    <option key={dept.id} value={dept.name}>
+                      {dept.name}
+                    </option>
                   ))}
                 </select>
+                {departmentsMessage ? (
+                  <p className="text-xs text-amber-600 dark:text-amber-500 mt-2">{departmentsMessage}</p>
+                ) : null}
                 <p className="text-xs text-muted-foreground mt-2">
                   Your complaint will be routed to the selected department.
                 </p>
