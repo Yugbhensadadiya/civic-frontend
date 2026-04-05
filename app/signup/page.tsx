@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight, CheckCircle2, ShieldCheck, RefreshCw } from 'lucide-react'
-import GoogleProvider from '@/components/GoogleProvider'
 import GoogleLoginBtn from '@/components/GoogleLoginBtn'
 import { useRouter } from 'next/navigation'
 
@@ -342,9 +341,9 @@ export default function SignupPage() {
             </div>
           </div>
 
-          <GoogleProvider>
-            <div className="flex justify-center"><GoogleLoginBtn /></div>
-          </GoogleProvider>
+          <div className="flex justify-center">
+            <GoogleLoginBtn />
+          </div>
 
           <p className="text-center text-sm text-muted-foreground">
             Already have an account?{' '}
