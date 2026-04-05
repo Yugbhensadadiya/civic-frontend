@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight, CheckCircle2, ShieldCheck, RefreshCw } from 'lucide-react'
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, CheckCircle2 } from 'lucide-react'
 import GoogleLoginBtn from '@/components/GoogleLoginBtn'
 import { useRouter } from 'next/navigation'
 
@@ -14,50 +14,69 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-
-  // OTP verification state
-  const [step, setStep] = useState<'register' | 'verify'>('register')
-  const [pendingEmail, setPendingEmail] = useState('')
-  const [otp, setOtp] = useState(['', '', '', '', '', ''])
-  const [verifying, setVerifying] = useState(false)
-  const [resending, setResending] = useState(false)
-  const [resendCooldown, setResendCooldown] = useState(0)
-  const otpRefs = useRef<(HTMLInputElement | null)[]>([])
-
   const router = useRouter()
 
   useEffect(() => {
     const token = localStorage.getItem('access_token')
     if (token) router.push('/dashboard')
-  }, [])
-
-  // Resend cooldown timer
-  useEffect(() => {
-    if (resendCooldown <= 0) return
-    const t = setTimeout(() => setResendCooldown(c => c - 1), 1000)
-    return () => clearTimeout(t)
-  }, [resendCooldown])
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    if (formData.password !== formData.confirmPassword) { setError('Passwords do not match'); return }
-    if (formData.password.length < 6) { setError('Password must be at least 6 characters'); return }
+    const username = formData.username.trim()
+    const email = formData.email.trim().toLowerCase()
+    if (!username) {
+      setError('Username is required.')
+      return
+    }
+    if (!email) {
+      setError('Email is required.')
+      return
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match.')
+      return
+    }
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters (stricter rules may apply).')
+      return
+    }
     setLoading(true)
     try {
       const res = await fetch(`${API}/api/register/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, role: 'Civic-User' })
+        body: JSON.stringify({
+          username,
+          email,
+          password: formData.password,
+          confirm_password: formData.confirmPassword,
+          confirmPassword: formData.confirmPassword,
+          role: 'Civic-User',
+        }),
       })
-      const data = await res.json()
-      if (data.success) {
-        setPendingEmail(formData.email)
-        setStep('verify')
-        setResendCooldown(60)
-      } else {
-        setError(data.message || 'Registration failed')
+      let data: Record<string, unknown> = {}
+      try {
+        data = await res.json()
+      } catch {
+        setError('Invalid response from server. Please try again.')
+        return
       }
+      if (!res.ok) {
+        const msg =
+          typeof data.message === 'string'
+            ? data.message
+            : 'Registration failed. Please check your details.'
+        setError(msg)
+        return
+      }
+      if (data.success) {
+        const em = typeof data.email === 'string' ? data.email : email
+        router.push(`/verify-email?email=${encodeURIComponent(em)}`)
+        return
+      }
+      setError(typeof data.message === 'string' ? data.message : 'Registration failed.')
     } catch {
       setError('Network error. Please try again.')
     } finally {
@@ -65,163 +84,8 @@ export default function SignupPage() {
     }
   }
 
-  const handleOtpChange = (idx: number, val: string) => {
-    if (!/^\d*$/.test(val)) return
-    const next = [...otp]
-    next[idx] = val.slice(-1)
-    setOtp(next)
-    if (val && idx < 5) otpRefs.current[idx + 1]?.focus()
-  }
-
-  const handleOtpKeyDown = (idx: number, e: React.KeyboardEvent) => {
-    if (e.key === 'Backspace' && !otp[idx] && idx > 0) otpRefs.current[idx - 1]?.focus()
-  }
-
-  const handleOtpPaste = (e: React.ClipboardEvent) => {
-    const text = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6)
-    if (text.length === 6) {
-      setOtp(text.split(''))
-      otpRefs.current[5]?.focus()
-    }
-  }
-
-  const handleVerify = async () => {
-    const code = otp.join('')
-    if (code.length < 6) { setError('Please enter the complete 6-digit OTP'); return }
-    setError('')
-    setVerifying(true)
-    try {
-      const res = await fetch(`${API}/api/verify-email/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: pendingEmail, otp: code })
-      })
-      const data = await res.json()
-      if (data.success) {
-        localStorage.setItem('access_token', data.access_token)
-        localStorage.setItem('refresh_token', data.refresh_token)
-        localStorage.setItem('user', JSON.stringify(data.user))
-        window.location.href = '/user-details'
-      } else {
-        setError(data.message || 'Invalid OTP')
-        setOtp(['', '', '', '', '', ''])
-        otpRefs.current[0]?.focus()
-      }
-    } catch {
-      setError('Network error. Please try again.')
-    } finally {
-      setVerifying(false)
-    }
-  }
-
-  const handleResend = async () => {
-    if (resendCooldown > 0) return
-    setResending(true)
-    setError('')
-    try {
-      const res = await fetch(`${API}/api/resend-otp/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: pendingEmail })
-      })
-      const data = await res.json()
-      if (data.success) {
-        setResendCooldown(60)
-        setOtp(['', '', '', '', '', ''])
-        otpRefs.current[0]?.focus()
-      } else {
-        setError(data.message || 'Failed to resend OTP')
-      }
-    } catch {
-      setError('Network error. Please try again.')
-    } finally {
-      setResending(false)
-    }
-  }
-
-  // ── OTP Verification Screen ───────────────────────────────────────────────
-  if (step === 'verify') {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-border p-8 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-2">
-              <ShieldCheck className="w-8 h-8 text-primary" />
-            </div>
-            <h1 className="text-2xl font-bold text-foreground">Verify Your Email</h1>
-            <p className="text-sm text-muted-foreground">
-              We sent a 6-digit OTP to<br />
-              <span className="font-semibold text-foreground">{pendingEmail}</span>
-            </p>
-          </div>
-
-          {error && (
-            <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg text-sm text-center">
-              {error}
-            </div>
-          )}
-
-          {/* OTP Input Boxes */}
-          <div className="flex justify-center gap-3" onPaste={handleOtpPaste}>
-            {otp.map((digit, i) => (
-              <input
-                key={i}
-                ref={el => { otpRefs.current[i] = el }}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={digit}
-                onChange={e => handleOtpChange(i, e.target.value)}
-                onKeyDown={e => handleOtpKeyDown(i, e)}
-                className={`w-12 h-14 text-center text-xl font-bold rounded-xl border-2 outline-none transition-all
-                  ${digit ? 'border-primary bg-primary/5 text-primary' : 'border-input bg-background text-foreground'}
-                  focus:border-primary focus:ring-2 focus:ring-primary/20`}
-              />
-            ))}
-          </div>
-
-          <Button
-            onClick={handleVerify}
-            disabled={verifying || otp.join('').length < 6}
-            className="w-full h-12 text-base font-semibold bg-gradient-to-r from-primary to-secondary hover:opacity-90"
-          >
-            {verifying ? (
-              <span className="flex items-center gap-2"><RefreshCw className="w-4 h-4 animate-spin" /> Verifying...</span>
-            ) : (
-              <span className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> Verify Email</span>
-            )}
-          </Button>
-
-          <div className="text-center text-sm text-muted-foreground">
-            Didn't receive the OTP?{' '}
-            {resendCooldown > 0 ? (
-              <span className="text-muted-foreground">Resend in {resendCooldown}s</span>
-            ) : (
-              <button
-                onClick={handleResend}
-                disabled={resending}
-                className="text-primary hover:underline font-semibold disabled:opacity-50"
-              >
-                {resending ? 'Sending...' : 'Resend OTP'}
-              </button>
-            )}
-          </div>
-
-          <p className="text-center text-xs text-muted-foreground">
-            Wrong email?{' '}
-            <button onClick={() => { setStep('register'); setError('') }} className="text-primary hover:underline">
-              Go back
-            </button>
-          </p>
-        </div>
-      </div>
-    )
-  }
-
-  // ── Registration Screen ───────────────────────────────────────────────────
   return (
     <div className="min-h-screen flex">
-      {/* Left Side */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary via-secondary to-primary items-center justify-center p-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
         <div className="text-white text-center space-y-8 max-w-lg relative z-10 animate-in fade-in slide-in-from-left-4 duration-700">
@@ -249,7 +113,6 @@ export default function SignupPage() {
         </div>
       </div>
 
-      {/* Right Side - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gradient-to-br from-background via-background to-secondary/5">
         <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div className="text-center space-y-2">
@@ -257,7 +120,7 @@ export default function SignupPage() {
               <User className="w-8 h-8 text-primary" />
             </div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Create Account</h1>
-            <p className="text-muted-foreground text-lg">Sign up to get started</p>
+            <p className="text-muted-foreground text-lg">Sign up to get started — we&apos;ll email you a code to verify</p>
           </div>
 
           {error && (
@@ -309,7 +172,7 @@ export default function SignupPage() {
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
-              <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
+              <p className="text-xs text-muted-foreground">At least 8 characters; use a mix of letters and numbers if you can</p>
             </div>
 
             <div className="space-y-2">

@@ -14,6 +14,10 @@ function VerifyEmailContent() {
   const emailFromQuery = searchParams.get('email') || ''
 
   const [email, setEmail] = useState(emailFromQuery)
+
+  useEffect(() => {
+    if (emailFromQuery) setEmail(emailFromQuery.trim().toLowerCase())
+  }, [emailFromQuery])
   const [otp, setOtp] = useState(['', '', '', '', '', ''])
   const [verifying, setVerifying] = useState(false)
   const [resending, setResending] = useState(false)
@@ -48,7 +52,7 @@ function VerifyEmailContent() {
     if (code.length < 6) { setError('Please enter the complete 6-digit OTP'); return }
     setError(''); setVerifying(true)
     try {
-      const res = await fetch(`${API}/api/verify-email/`, {
+      const res = await fetch(`${API}/api/verify-otp/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp: code })
