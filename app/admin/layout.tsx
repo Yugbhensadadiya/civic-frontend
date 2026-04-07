@@ -32,7 +32,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [])
 
   const menuItems = [
-    { icon: Home, label: 'Home', path: '/', group: 'Navigation' },
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin', group: 'Main' },
     { icon: FileText, label: 'All Complaints', path: '/admin/complaints', group: 'Management' },
     // 'Assign Complaints' removed to hide assignment page from admin UI
