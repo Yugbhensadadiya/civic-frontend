@@ -23,7 +23,9 @@ interface Complaint {
 
 const statusColors: Record<string, { bg: string; text: string; border: string }> = {
   Pending: { bg: 'bg-orange-500/10', text: 'text-orange-700', border: 'border-orange-500/20' },
+  'In Process': { bg: 'bg-purple-500/10', text: 'text-purple-700', border: 'border-purple-500/20' },
   'in-progress': { bg: 'bg-purple-500/10', text: 'text-purple-700', border: 'border-purple-500/20' },
+  Completed: { bg: 'bg-green-500/10', text: 'text-green-700', border: 'border-green-500/20' },
   resolved: { bg: 'bg-green-500/10', text: 'text-green-700', border: 'border-green-500/20' },
 }
 
@@ -52,8 +54,15 @@ export default function ComplaintsList({
 
   const itemsPerPage = 6
 
+  const normalizeStatus = (s: string) => {
+    const v = (s || '').trim().toLowerCase()
+    if (v === 'in process' || v === 'in-progress' || v === 'in_progress') return 'in-progress'
+    if (v === 'completed' || v === 'resolved') return 'resolved'
+    return 'pending'
+  }
+
   const filteredComplaints = (complaints || [])
-    .filter((c) => (filterStatus === 'all' ? true : c.status.toLowerCase() === filterStatus.toLowerCase()))
+    .filter((c) => (filterStatus === 'all' ? true : normalizeStatus(c.status) === normalizeStatus(filterStatus)))
     .filter((c) => {
       if (categoryFilter === 'all') return true
       const categoryValue = c.category_name || ''
@@ -111,7 +120,11 @@ export default function ComplaintsList({
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold border ${statusColors[complaint.status]?.bg || 'bg-gray-500/10'} ${statusColors[complaint.status]?.text || 'text-gray-700'} ${statusColors[complaint.status]?.border || 'border-gray-500/20'}`}
                       >
-                        {complaint.status ? complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1) : 'Unknown'}
+                        {normalizeStatus(complaint.status) === 'in-progress'
+                          ? 'In Progress'
+                          : normalizeStatus(complaint.status) === 'resolved'
+                            ? 'Completed'
+                            : 'Pending'}
                       </span>
                     </div>
                   </div>

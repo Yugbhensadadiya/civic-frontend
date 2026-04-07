@@ -18,8 +18,8 @@ interface ComplaintsFilterProps {
 const STATUS_OPTS = [
   { value: 'all', label: 'All Statuses' },
   { value: 'Pending', label: 'Pending' },
-  { value: 'in-progress', label: 'In Progress' },
-  { value: 'resolved', label: 'Resolved' },
+  { value: 'In Process', label: 'In Progress' },
+  { value: 'Completed', label: 'Resolved' },
 ]
 
 const PRIORITY_OPTS = [
