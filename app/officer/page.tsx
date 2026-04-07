@@ -38,6 +38,7 @@ export default function OfficerDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [recentComplaints, setRecentComplaints] = useState<RecentComplaint[]>([])
   const [monthlyData, setMonthlyData] = useState<MonthlyData[]>([])
+  const [departmentName, setDepartmentName] = useState<string>('')
   const [loading, setLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
@@ -97,6 +98,13 @@ export default function OfficerDashboard() {
         const errorData = await trendsResponse.text()
         console.error('Trends error response:', errorData)
       }
+
+      // Fetch profile to show officer department in header
+      const profileResponse = await fetch(`${API_BASE}/api/officer/profile/`, { headers })
+      if (profileResponse.ok) {
+        const profileData = await profileResponse.json()
+        setDepartmentName(typeof profileData?.department === 'string' ? profileData.department : '')
+      }
     } catch (error) {
       console.error('Error fetching dashboard data:', error)
     } finally {
@@ -131,6 +139,9 @@ export default function OfficerDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Officer Dashboard</h1>
+              {departmentName ? (
+                <p className="text-sm text-gray-700 mt-1">Department: {departmentName}</p>
+              ) : null}
               <p className="text-sm text-gray-500 mt-1">Monitor your complaint management performance</p>
             </div>
             <button
