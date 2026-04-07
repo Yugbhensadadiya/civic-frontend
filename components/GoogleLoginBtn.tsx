@@ -83,19 +83,21 @@ export default function GoogleLoginBtn() {
   }
 
   return (
-    <GoogleLogin
-      onSuccess={handleSuccess}
-      onError={handleError}
-      theme="outline"
-      size="large"
-      text="signin_with"
-      shape="rectangular"
-      width={250}
-      useOneTap={false}
-      auto_select={false}
-      ux_mode="popup"
-      use_fedcm_for_button={false}
-      use_fedcm_for_prompt={false}
-    />
+    <div className="flex justify-center w-full">
+      <GoogleLogin
+        onSuccess={handleSuccess}
+        onError={handleError}
+        theme="outline"
+        size="large"
+        text="continue_with"
+        shape="rectangular"
+        width={250}
+        useOneTap={false}
+        auto_select={false}
+        ux_mode="popup"
+        use_fedcm_for_button={false}
+        use_fedcm_for_prompt={false}
+      />
+    </div>
   )
 }
