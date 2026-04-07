@@ -231,7 +231,7 @@ export default function DepartmentsPage() {
         // Use department_statistics — real data per Department record
         setDeptComplaintData(
           deptStats
-            .filter(d => d.complaint_count > 0)
+            .sort((a, b) => String(a.name || a.category).localeCompare(String(b.name || b.category)))
             .map(d => ({ name: d.name || d.category, complaints: d.complaint_count }))
         )
       } else {
@@ -271,18 +271,18 @@ export default function DepartmentsPage() {
       if (deptStats.length > 0) {
         setDeptOfficerData(
           deptStats
-            .filter(d => d.officer_count > 0)
+            .sort((a, b) => String(a.name || a.category).localeCompare(String(b.name || b.category)))
             .map(d => ({ name: d.name || d.category, officers: d.officer_count }))
         )
       } else {
         // Fallback: use officer_count from departments list
-        const deptList = departments.filter(d => d.officer_count > 0)
+        const deptList = [...departments].sort((a, b) => a.name.localeCompare(b.name))
         setDeptOfficerData(deptList.map(d => ({ name: d.name, officers: d.officer_count })))
       }
     } catch (e) {
       console.error('fetchDeptOfficerData error:', e)
       // Fallback: use officer_count from already-loaded departments list
-      const deptList = departments.filter(d => d.officer_count > 0)
+      const deptList = [...departments].sort((a, b) => a.name.localeCompare(b.name))
       setDeptOfficerData(deptList.map(d => ({ name: d.name, officers: d.officer_count })))
     }
   }
