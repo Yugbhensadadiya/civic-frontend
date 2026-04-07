@@ -79,6 +79,7 @@ const PRIORITY_CONFIG: Record<string, { cls: string; dot: string }> = {
 
 export default function StatusChangePage() {
   const [complaints, setComplaints] = useState<Complaint[]>([])
+  const [statusCounts, setStatusCounts] = useState({ pending: 0, in_progress: 0, completed: 0 })
   const [loading, setLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -104,6 +105,7 @@ export default function StatusChangePage() {
       if (res.ok) {
         const data = await res.json()
         setComplaints(data.complaints || [])
+        setStatusCounts(data.statusCounts || { pending: 0, in_progress: 0, completed: 0 })
       }
     } catch (e) {
       console.error(e)
@@ -122,7 +124,7 @@ export default function StatusChangePage() {
   })
 
   const byStatus = (key: string) => filtered.filter((c) => c.status === key)
-  const totalByStatus = (key: string) => complaints.filter((c) => c.status === key).length
+  const totalCount = statusCounts.pending + statusCounts.in_progress + statusCounts.completed
 
   const openModal = (complaint: Complaint, nextStatus: string) => {
     setRemarksModal({ complaint, nextStatus })
@@ -137,12 +139,30 @@ export default function StatusChangePage() {
     setUpdating(true)
     setUpdateError('')
     try {
+      const prevStatus = remarksModal.complaint.status
+      const nextStatus = remarksModal.nextStatus
       const res = await fetch(
-        `${API_BASE}/api/officer/complaints/${remarksModal.complaint.id}/update/`,
-        { method: 'POST', headers: getHeaders(), body: JSON.stringify({ status: remarksModal.nextStatus, remarks: remarksText }) }
+        `${API_BASE}/api/officer/complaints/${remarksModal.complaint.id}/status/`,
+        { method: 'PATCH', headers: getHeaders(), body: JSON.stringify({ status: nextStatus, remarks: remarksText }) }
       )
       if (res.ok) {
-        await fetchComplaints()
+        setComplaints((prev) =>
+          prev.map((c) =>
+            c.id === remarksModal.complaint.id
+              ? { ...c, status: nextStatus, remarks: remarksText }
+              : c
+          )
+        )
+        setStatusCounts((prev) => {
+          const out = { ...prev }
+          const toKey = (s: string) =>
+            (s === 'Pending' ? 'pending' : s === 'In Process' ? 'in_progress' : 'completed') as 'pending' | 'in_progress' | 'completed'
+          const from = toKey(prevStatus)
+          const to = toKey(nextStatus)
+          out[from] = Math.max(0, out[from] - 1)
+          out[to] = out[to] + 1
+          return out
+        })
         closeModal()
       } else {
         const err = await res.json()
@@ -152,8 +172,8 @@ export default function StatusChangePage() {
     finally { setUpdating(false) }
   }
 
-  const resolutionRate = complaints.length > 0
-    ? Math.round((totalByStatus('Completed') / complaints.length) * 100)
+  const resolutionRate = totalCount > 0
+    ? Math.round((statusCounts.completed / totalCount) * 100)
     : 0
 
   return (
@@ -181,10 +201,10 @@ export default function StatusChangePage() {
         {/* Stats row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-gray-100">
           {[
-            { label: 'Total', value: complaints.length, color: 'text-gray-900', icon: Tag },
-            { label: 'Pending',    value: totalByStatus('Pending'),    color: 'text-yellow-600', icon: Clock },
-            { label: 'In Process', value: totalByStatus('In Process'), color: 'text-blue-600',   icon: Activity },
-            { label: 'Completed',  value: totalByStatus('Completed'),  color: 'text-green-600',  icon: CheckCircle },
+            { label: 'Total', value: totalCount, color: 'text-gray-900', icon: Tag },
+            { label: 'Pending',    value: statusCounts.pending,    color: 'text-yellow-600', icon: Clock },
+            { label: 'In Process', value: statusCounts.in_progress, color: 'text-blue-600',   icon: Activity },
+            { label: 'Completed',  value: statusCounts.completed,  color: 'text-green-600',  icon: CheckCircle },
           ].map(({ label, value, color, icon: Icon }) => (
             <div key={label} className="flex flex-col items-center py-4 px-3">
               <Icon className={`w-4 h-4 ${color} mb-1`} />
