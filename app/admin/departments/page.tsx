@@ -43,6 +43,7 @@ export default function DepartmentsPage() {
   const [deletingDepartment, setDeletingDepartment] = useState<Department | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [filterCategory, setFilterCategory] = useState('all')
+  const [departmentOptions, setDepartmentOptions] = useState<Array<{ id: number; name: string }>>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [departments, setDepartments] = useState<Department[]>([])
@@ -137,6 +138,22 @@ export default function DepartmentsPage() {
       } : null)
     } catch (e: any) {
       console.error('Error fetching department statistics:', e.message)
+    }
+  }
+
+  async function fetchDepartmentOptions() {
+    try {
+      const res = await fetch(`${API_BASE}/api/departments/`, { headers: getAuthHeaders() })
+      if (!res.ok) throw new Error(`Failed to fetch departments (${res.status})`)
+      const data = await res.json()
+      const normalized = (Array.isArray(data) ? data : [])
+        .filter((d: any) => d && (typeof d.id === 'number' || typeof d.id === 'string') && typeof d.name === 'string')
+        .map((d: any) => ({ id: Number(d.id), name: d.name }))
+        .sort((a, b) => a.name.localeCompare(b.name))
+      setDepartmentOptions(normalized)
+    } catch (e) {
+      console.error('Error fetching department options:', e)
+      setDepartmentOptions([])
     }
   }
 
@@ -293,6 +310,7 @@ export default function DepartmentsPage() {
     fetchDeptComplaintData(compYear)
     fetchDeptOfficerData()
     fetchUserEmails()
+    fetchDepartmentOptions()
   }, [])
 
   useEffect(() => {
@@ -310,7 +328,7 @@ export default function DepartmentsPage() {
   const filteredDepartments = departments.filter(dept => {
     const matchesSearch = dept.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          dept.description.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = filterCategory === 'all' || dept.category === filterCategory
+    const matchesCategory = filterCategory === 'all' || dept.name === filterCategory
     return matchesSearch && matchesCategory
   })
 
@@ -482,8 +500,8 @@ export default function DepartmentsPage() {
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sidebar-primary focus:border-sidebar-primary"
             >
               <option value="all">All Categories</option>
-              {categoryChoices.map(cat => (
-                <option key={cat.value} value={cat.value}>{cat.label}</option>
+              {departmentOptions.map((dept) => (
+                <option key={dept.id} value={dept.name}>{dept.name}</option>
               ))}
             </select>
           </div>
