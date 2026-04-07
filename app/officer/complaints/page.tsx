@@ -96,6 +96,7 @@ export default function AllComplaintsPage() {
       const res = await fetch(`${API_BASE}/api/officer/complaints/?${params}`, { headers: getHeaders() })
       if (res.ok) {
         const data = await res.json()
+        console.log('[Officer All Complaints] API response:', data)
         setComplaints(data.complaints || [])
         setCategories(data.categories || [])
         setTotalComplaints(data.total || 0)
