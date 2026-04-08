@@ -37,7 +37,7 @@ export default function ComplaintsFilters({
   selectedAssigned,
   setSelectedAssigned,
 }: ComplaintsFiltersProps) {
-  const [categories, setCategories] = useState<Array<any>>([])
+  const [departments, setDepartments] = useState<Array<{ id: number; name: string }>>([])
   const [loading, setLoading] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
 
@@ -47,25 +47,22 @@ export default function ComplaintsFilters({
   useEffect(() => {
     let mounted = true
     setLoading(true)
-    fetch(`${API_BASE}/api/categorieslist/`)
+    fetch(`${API_BASE}/api/departments/`)
       .then((r) => {
-        if (!r.ok) throw new Error('Failed to fetch categories')
+        if (!r.ok) throw new Error('Failed to fetch departments')
         return r.json()
       })
       .then((data) => {
         if (!mounted) return
-        setCategories(Array.isArray(data) ? data : [])
+        setDepartments(
+          (Array.isArray(data) ? data : [])
+            .map((d: any) => ({ id: Number(d.id), name: String(d.name) }))
+            .sort((a, b) => a.name.localeCompare(b.name))
+        )
       })
       .catch((error) => {
-        console.error('Failed to fetch categories:', error)
-        // Fall back to hardcoded categories
-        setCategories([
-          { id: 1, name: 'Water Supply', code: 'WS' },
-          { id: 2, name: 'Roads & Infrastructure', code: 'RI' },
-          { id: 3, name: 'Sanitation', code: 'SAN' },
-          { id: 4, name: 'Street Lighting', code: 'SL' },
-          { id: 5, name: 'Drainage', code: 'DR' },
-        ])
+        console.error('Failed to fetch departments:', error)
+        setDepartments([])
       })
       .finally(() => {
         if (mounted) setLoading(false)
@@ -128,10 +125,10 @@ export default function ComplaintsFilters({
           </div>
         </div>
 
-        {/* Category Filter */}
+        {/* Department Filter */}
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2">
-            Category
+            Department
           </label>
           <select
             value={selectedDepartment}
@@ -139,10 +136,10 @@ export default function ComplaintsFilters({
             className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             disabled={loading}
           >
-            <option value="all">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id.toString()}>
-                {cat.name} {cat.code && `(${cat.code})`}
+            <option value="all">All Departments</option>
+            {departments.map((dept) => (
+              <option key={dept.id} value={dept.name}>
+                {dept.name}
               </option>
             ))}
           </select>
@@ -251,7 +248,7 @@ export default function ComplaintsFilters({
               <span className="font-medium">Active Filters:</span>
               <span className="ml-2">
                 {searchQuery && `Search: "${searchQuery}"`}
-                {selectedDepartment !== 'all' && ` | Category: ${selectedDepartment}`}
+                {selectedDepartment !== 'all' && ` | Department: ${selectedDepartment}`}
                 {selectedStatus !== 'all' && ` | Status: ${selectedStatus}`}
                 {selectedPriority !== 'all' && ` | Priority: ${selectedPriority}`}
                 {selectedDateRange !== 'all' && ` | Date: ${selectedDateRange}`}

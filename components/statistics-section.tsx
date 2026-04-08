@@ -14,6 +14,12 @@ interface StatData {
   total_departments: number
 }
 
+type RawStatData = Partial<StatData> & {
+  Resolved_complaints?: number
+  Pending_complaints?: number
+  SLA_complaince?: number
+}
+
 interface StatCard {
   label: string
   value: number | string
@@ -47,27 +53,24 @@ export default function StatisticsSection() {
       setError(null)
 
       const API_BASE_URL = getApiBase()
-      const token = localStorage.getItem('access_token')
-      const isTokenValid = Boolean(token && token !== 'undefined' && token !== 'null')
-
-      const endpoint = isTokenValid
-        ? `${API_BASE_URL}/api/getcompinfo/`
-        : `${API_BASE_URL}/api/complaintinfo/`
-      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
-      if (isTokenValid) headers['Authorization'] = `Bearer ${token}`
-
-      let response = await fetch(endpoint, { headers })
-
-      if (!response.ok && response.status === 401 && isTokenValid) {
-        response = await fetch(`${API_BASE_URL}/api/complaintinfo/`, {
-          headers: { 'Content-Type': 'application/json' }
-        })
-      }
+      // Platform stats should be global; use public endpoint regardless of login state.
+      const endpoint = `${API_BASE_URL}/api/complaintinfo/`
+      const response = await fetch(endpoint, { headers: { 'Content-Type': 'application/json' } })
 
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
 
-      const data = await response.json()
-      setStats(data)
+      const data: RawStatData = await response.json()
+      console.log('[Platform Statistics] API response:', data)
+      setStats({
+        total_complaints: Number(data.total_complaints ?? 0),
+        resolved_complaints: Number(data.resolved_complaints ?? data.Resolved_complaints ?? 0),
+        pending_complaints: Number(data.pending_complaints ?? data.Pending_complaints ?? 0),
+        in_progress_complaints: Number(data.in_progress_complaints ?? 0),
+        sla_compliance: Number(data.sla_compliance ?? data.SLA_complaince ?? 0),
+        total_categories: Number(data.total_categories ?? 0),
+        total_users: Number(data.total_users ?? 0),
+        total_departments: Number(data.total_departments ?? 0),
+      })
       
     } catch (error) {
       console.error("Error fetching statistics:", error)
@@ -199,7 +202,7 @@ export default function StatisticsSection() {
           {statCards.map((card, index) => (
             <div
               key={card.label}
-              className={`bg-white rounded-xl border ${card.borderColor} p-6 hover:shadow-lg transition-all duration-300 hover:scale-105`}
+              className={`bg-white rounded-xl border ${card.borderColor} p-6 min-h-[160px] flex flex-col justify-between overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-105`}
               style={{
                 animationDelay: `${index * 100}ms`,
                 animation: 'fadeInUp 0.6s ease-out forwards'

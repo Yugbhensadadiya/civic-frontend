@@ -79,25 +79,29 @@ export default function AllComplaintsPage() {
   const [serverEnd, setServerEnd] = useState<number | null>(null)
   const itemsPerPage = 6
 
-  // Categories will be loaded from backend
+  // Departments will be loaded from backend
   const [departments, setDepartments] = useState<Array<{ id: number; name: string }>> ([])
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchDepartments = async () => {
       try {
         const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
-        const res = await fetch(`${API_BASE_URL}/api/categories/`)
-        if (!res.ok) throw new Error('Failed to fetch categories')
+        const res = await fetch(`${API_BASE_URL}/api/departments/`)
+        if (!res.ok) throw new Error('Failed to fetch departments')
         const data = await res.json()
-        // API returns [{id,name,slug,...}]
-        setDepartments(data.map((c: any) => ({ id: c.id, name: c.name })))
+        // API returns [{id,name},...]
+        setDepartments(
+          (Array.isArray(data) ? data : [])
+            .map((d: any) => ({ id: Number(d.id), name: String(d.name) }))
+            .sort((a, b) => a.name.localeCompare(b.name))
+        )
       } catch (err) {
-        console.error('Failed to load categories:', err)
+        console.error('Failed to load departments:', err)
         setDepartments([])
       }
     }
     
-    fetchCategories()
+    fetchDepartments()
   }, [])
 
   // Fetch KPI data from backend
