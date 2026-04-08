@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight, CheckCircle2 } from 'lucide-react'
 import GoogleLoginBtn from '@/components/GoogleLoginBtn'
 import { useRouter } from 'next/navigation'
-
-const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+import { getApiBaseUrl } from '../../lib/config'
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '' })
@@ -44,7 +43,7 @@ export default function SignupPage() {
     }
     setLoading(true)
     try {
-      const res = await fetch(`${API}/api/register/`, {
+      const res = await fetch(`${getApiBaseUrl()}/api/register/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({

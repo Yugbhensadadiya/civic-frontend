@@ -3,17 +3,20 @@
  * This function is evaluated at runtime, ensuring process.env is always available
  */
 export function getApiBaseUrl(): string {
-  // NEXT_PUBLIC_* variables are available in browser at runtime
-  const envUrl = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  // Support both Next.js and Vite-style env names (safe no-op when missing).
+  const envUrl =
+    (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) ||
+    (typeof process !== 'undefined' ? process.env.VITE_API_URL : undefined) ||
+    'https://civic-backend-2.onrender.com'
   const productionFallback = 'https://civic-backend-2.onrender.com'
   
-  const apiUrl = envUrl || productionFallback
+  const apiUrl = (envUrl || productionFallback).replace(/\/+$/, '')
   
   // Debug logging only on client side
   if (typeof window !== 'undefined') {
     console.log('[API Config] Using API URL:', apiUrl)
     if (!envUrl) {
-      console.warn('[API Config] NEXT_PUBLIC_API_URL not set, using fallback:', productionFallback)
+      console.warn('[API Config] API env URL not set, using fallback:', productionFallback)
     }
   }
   
@@ -23,4 +26,8 @@ export function getApiBaseUrl(): string {
 // Export for use in components
 export const API_BASE_URL = typeof window !== 'undefined' 
   ? getApiBaseUrl() 
-  : ((typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com')
+  : (
+      (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) ||
+      (typeof process !== 'undefined' ? process.env.VITE_API_URL : undefined) ||
+      'https://civic-backend-2.onrender.com'
+    ).replace(/\/+$/, '')
