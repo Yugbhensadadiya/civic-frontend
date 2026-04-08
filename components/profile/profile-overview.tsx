@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -38,7 +38,7 @@ export default function ProfileOverview() {
           return
         }
 
-        const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/userdetails/`, {
+        const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/userdetails/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -193,3 +193,4 @@ export default function ProfileOverview() {
     </Card>
   )
 }
+

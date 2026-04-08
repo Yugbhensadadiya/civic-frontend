@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import React, { useState, useEffect } from 'react'
 import {
@@ -27,7 +27,7 @@ interface Complaint {
   updatedAt?: string
 }
 
-/* ── helpers ── */
+/* â”€â”€ helpers â”€â”€ */
 const STATUS_MAP: Record<string, { label: string; badge: string; icon: React.ElementType; bar: string }> = {
   Pending:       { label: 'Pending',    badge: 'bg-red-100 text-red-700 border-red-200',         icon: Clock,       bar: 'bg-red-500' },
   'In Process':  { label: 'In Process', badge: 'bg-yellow-100 text-yellow-700 border-yellow-200', icon: Activity,    bar: 'bg-yellow-500' },
@@ -57,7 +57,7 @@ function PriorityBadge({ priority }: { priority: string }) {
   )
 }
 
-/* ── main page ── */
+/* â”€â”€ main page â”€â”€ */
 export default function AllComplaintsPage() {
   const [complaints, setComplaints] = useState<Complaint[]>([])
   const [loading, setLoading] = useState(true)
@@ -76,7 +76,7 @@ export default function AllComplaintsPage() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [totalComplaints, setTotalComplaints] = useState(0)
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
   const itemsPerPage = 10
 
   const getHeaders = () => {
@@ -256,7 +256,7 @@ export default function AllComplaintsPage() {
             {totalPages > 1 && (
               <div className="px-5 py-3 border-t border-gray-100 flex items-center justify-between">
                 <p className="text-xs text-gray-500">
-                  Showing {totalComplaints > 0 ? startIndex : 0}–{endIndex} of {totalComplaints}
+                  Showing {totalComplaints > 0 ? startIndex : 0}â€“{endIndex} of {totalComplaints}
                 </p>
                 <div className="flex items-center gap-1">
                   <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}
@@ -275,7 +275,7 @@ export default function AllComplaintsPage() {
         )}
       </div>
 
-      {/* ── Complaint Details Modal ── */}
+      {/* â”€â”€ Complaint Details Modal â”€â”€ */}
       {selectedComplaint && (() => {
         const c = selectedComplaint
         const statusInfo = STATUS_MAP[c.status] ?? STATUS_MAP['Pending']
@@ -347,7 +347,7 @@ export default function AllComplaintsPage() {
                 {/* Description */}
                 <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
                   <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Description</p>
-                  <p className="text-sm text-gray-700 leading-relaxed">{c.description || '—'}</p>
+                  <p className="text-sm text-gray-700 leading-relaxed">{c.description || 'â€”'}</p>
                 </div>
 
                 {/* Location */}
@@ -446,7 +446,7 @@ export default function AllComplaintsPage() {
         )
       })()}
 
-      {/* ── Update Status Modal ── */}
+      {/* â”€â”€ Update Status Modal â”€â”€ */}
       {editingComplaint && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl">
@@ -454,7 +454,7 @@ export default function AllComplaintsPage() {
               <div>
                 <h3 className="text-base font-bold text-gray-900">Update Complaint</h3>
                 <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">
-                  #{editingComplaint.id} — {editingComplaint.title}
+                  #{editingComplaint.id} â€” {editingComplaint.title}
                 </p>
               </div>
               <button onClick={closeUpdateModal} className="text-gray-300 hover:text-gray-500 p-1 rounded-lg">
@@ -512,3 +512,4 @@ export default function AllComplaintsPage() {
     </div>
   )
 }
+

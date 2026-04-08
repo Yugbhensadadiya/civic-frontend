@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { Search, ArrowRight, AlertCircle, CheckCircle } from 'lucide-react'
@@ -24,7 +24,7 @@ export default function TrackComplaintPage() {
     setResult(null)
 
     try {
-      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const response = await fetch(`${API_BASE}/api/trackcomplaint/${complaintId}/`)
       
       if (!response.ok) {
@@ -218,3 +218,4 @@ export default function TrackComplaintPage() {
     </div>
   )
 }
+

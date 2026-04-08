@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useRef } from "react"
 import { usePathname, useRouter } from "next/navigation"
@@ -52,7 +52,7 @@ export default function DepartmentLayout({ children }: { children: React.ReactNo
     // Fetch real department name from dashboard API
     const token = localStorage.getItem('access_token')
     if (token && token !== 'undefined' && token !== 'null') {
-      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       fetch(`${API_BASE}/api/department/dashboard/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -226,3 +226,4 @@ export default function DepartmentLayout({ children }: { children: React.ReactNo
     </RequireAuth>
   )
 }
+

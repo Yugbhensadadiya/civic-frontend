@@ -1,4 +1,4 @@
- 'use client'
+﻿ 'use client'
 
 import { useState, useEffect } from 'react'
 import UtilityBar from '@/components/utility-bar'
@@ -42,7 +42,7 @@ export default function MyComplaintsPage() {
   
     // Use environment variable for API base so we can switch hosts/protocols.
     // Resolve at runtime to match the page protocol and avoid mixed-content issues.
-    const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+    const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
   
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -174,3 +174,4 @@ export default function MyComplaintsPage() {
     </RequireAuth>
   )
 }
+

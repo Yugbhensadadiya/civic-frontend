@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import {
@@ -53,7 +53,7 @@ export default function OfficersAnalytics() {
   const fetchAll = async () => {
     try {
       setLoading(true)
-      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null
       const headers: Record<string, string> = { "Content-Type": "application/json" }
       if (token && token !== "undefined" && token !== "null") {
@@ -80,7 +80,7 @@ export default function OfficersAnalytics() {
 
   if (loading) return <div className="text-center py-8 text-slate-400">Loading analytics...</div>
 
-  // ── Complaint status pie data ──────────────────────────────────────────────
+  // â”€â”€ Complaint status pie data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const s = dashboardStats?.stats
   const pieData = [
     { name: "Pending",     value: s?.pending    ?? 0, color: STATUS_COLORS[0] },
@@ -89,12 +89,12 @@ export default function OfficersAnalytics() {
   ]
   const totalComplaints = pieData.reduce((acc, d) => acc + d.value, 0)
 
-  // ── Top 3 officers by resolved complaints ─────────────────────────────────
+  // â”€â”€ Top 3 officers by resolved complaints â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const top3 = [...(analyticsData?.workload_data ?? [])]
     .sort((a, b) => (b.resolved_complaints ?? 0) - (a.resolved_complaints ?? 0))
     .slice(0, 3)
 
-  // ── Key metrics ───────────────────────────────────────────────────────────
+  // â”€â”€ Key metrics â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const metrics = [
     { label: "Total Officers",    value: analyticsData?.total_officers ?? 0,          bg: "bg-slate-50",   border: "border-slate-200",   text: "text-slate-700" },
     { label: "Available",         value: analyticsData?.available_officers ?? 0,       bg: "bg-emerald-50", border: "border-emerald-200", text: "text-emerald-700" },
@@ -163,7 +163,7 @@ export default function OfficersAnalytics() {
         </Card>
 
         {/* Top 3 Officers */}
-        <Card title="Top 3 Officers — Most Resolved">
+        <Card title="Top 3 Officers â€” Most Resolved">
           {top3.length > 0 ? (
             <div className="space-y-3">
               {top3.map((officer, i) => {
@@ -208,3 +208,4 @@ export default function OfficersAnalytics() {
     </div>
   )
 }
+

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useCallback } from "react"
 import {
@@ -11,7 +11,7 @@ import {
 } from "recharts"
 import Link from "next/link"
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface Stats {
   total: number
@@ -55,7 +55,7 @@ interface DashboardData {
   recentActivity: ActivityItem[]
 }
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 const CURRENT_YEAR = new Date().getFullYear()
@@ -76,7 +76,7 @@ const PRIORITY_STYLES: Record<string, string> = {
 const PIE_COLORS = ["#f59e0b", "#6366f1", "#10b981"]
 const AREA_GRADIENT_ID = "deptAreaGrad"
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function getAuthHeaders(): Record<string, string> {
   const token =
@@ -95,7 +95,7 @@ function priorityStyle(p: string) {
   return PRIORITY_STYLES[p] ?? "bg-gray-100 text-gray-700"
 }
 
-// ─── Sub-components ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Sub-components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function KpiCard({
   label, value, sub, icon, iconBg, borderColor,
@@ -132,7 +132,7 @@ function SectionCard({ title, subtitle, icon, iconBg, children }: {
   )
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// â”€â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function DepartmentDashboard() {
   const [data, setData] = useState<DashboardData | null>(null)
@@ -145,7 +145,7 @@ export default function DepartmentDashboard() {
   // Store all years' monthly data keyed by year
   const [allMonthlyData, setAllMonthlyData] = useState<Record<number, Record<string, number>>>({})
 
-  const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   const fetchData = useCallback(async () => {
     try {
@@ -197,7 +197,7 @@ export default function DepartmentDashboard() {
     fetchData()
   }
 
-  // ── Derived data ────────────────────────────────────────────────────────────
+  // â”€â”€ Derived data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   const monthlyChartData = MONTH_NAMES.map((name, i) => ({
     name,
@@ -214,7 +214,7 @@ export default function DepartmentDashboard() {
 
   const totalPie = pieData.reduce((s, e) => s + e.value, 0)
 
-  // ── Loading ─────────────────────────────────────────────────────────────────
+  // â”€â”€ Loading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   if (loading) {
     return (
@@ -239,7 +239,7 @@ export default function DepartmentDashboard() {
     )
   }
 
-  // ── Error ───────────────────────────────────────────────────────────────────
+  // â”€â”€ Error â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   if (error) {
     return (
@@ -265,12 +265,12 @@ export default function DepartmentDashboard() {
 
   const { stats, performance, recentComplaints, recentActivity } = data
 
-  // ── Render ──────────────────────────────────────────────────────────────────
+  // â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   return (
     <div className="p-4 lg:p-6 space-y-6">
 
-      {/* ── Header ── */}
+      {/* â”€â”€ Header â”€â”€ */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
@@ -293,7 +293,7 @@ export default function DepartmentDashboard() {
         </div>
       </div>
 
-      {/* ── Dept Info Banner ── */}
+      {/* â”€â”€ Dept Info Banner â”€â”€ */}
       {data.department && data.department.name !== 'All Departments' && (
         <div className="bg-[#1e3a5f] rounded-xl p-5 text-white">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -316,7 +316,7 @@ export default function DepartmentDashboard() {
         </div>
       )}
 
-      {/* ── KPI Cards ── */}
+      {/* â”€â”€ KPI Cards â”€â”€ */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
           label="Total Complaints"
@@ -352,10 +352,10 @@ export default function DepartmentDashboard() {
         />
       </div>
 
-      {/* ── Charts Row ── */}
+      {/* â”€â”€ Charts Row â”€â”€ */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
-        {/* Donut Chart — 2 cols */}
+        {/* Donut Chart â€” 2 cols */}
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <div className="px-5 pt-5 pb-3 flex items-center justify-between">
             <div>
@@ -428,12 +428,12 @@ export default function DepartmentDashboard() {
           )}
         </div>
 
-        {/* Area Chart — 3 cols */}
+        {/* Area Chart â€” 3 cols */}
         <div className="lg:col-span-3 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <div className="px-5 pt-5 pb-3 flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Trend Analysis</p>
-              <h3 className="text-base font-bold text-gray-900 mt-0.5">Monthly Complaints — {chartYear}</h3>
+              <h3 className="text-base font-bold text-gray-900 mt-0.5">Monthly Complaints â€” {chartYear}</h3>
             </div>
             {/* Year dropdown */}
             <div className="relative">
@@ -502,7 +502,7 @@ export default function DepartmentDashboard() {
         </div>
       </div>
 
-      {/* ── Performance + Activity Row ── */}
+      {/* â”€â”€ Performance + Activity Row â”€â”€ */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         {/* Performance Metrics */}
@@ -579,7 +579,7 @@ export default function DepartmentDashboard() {
                     <span className="text-xs text-gray-400">{a.time}</span>
                     {a.officer && (
                       <>
-                        <span className="text-gray-300">•</span>
+                        <span className="text-gray-300">â€¢</span>
                         <span className="text-xs text-gray-400">{a.officer}</span>
                       </>
                     )}
@@ -596,7 +596,7 @@ export default function DepartmentDashboard() {
         </SectionCard>
       </div>
 
-      {/* ── Recent Complaints Table ── */}
+      {/* â”€â”€ Recent Complaints Table â”€â”€ */}
       <SectionCard
         title="Recent Complaints"
         subtitle="Latest complaints submitted to department"
@@ -626,7 +626,7 @@ export default function DepartmentDashboard() {
                   <tr key={c.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-5 py-3 font-mono text-xs text-[#1e3a5f] font-semibold">#{c.id}</td>
                     <td className="px-5 py-3 text-gray-900 max-w-[180px] truncate">{c.title}</td>
-                    <td className="px-5 py-3 text-gray-500">{c.Category || "—"}</td>
+                    <td className="px-5 py-3 text-gray-500">{c.Category || "â€”"}</td>
                     <td className="px-5 py-3">
                       <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityStyle(c.priority)}`}>
                         {c.priority}
@@ -651,7 +651,7 @@ export default function DepartmentDashboard() {
         )}
       </SectionCard>
 
-      {/* ── Status Overview ── */}
+      {/* â”€â”€ Status Overview â”€â”€ */}
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
         <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <AlertTriangle className="w-4 h-4 text-amber-500" />

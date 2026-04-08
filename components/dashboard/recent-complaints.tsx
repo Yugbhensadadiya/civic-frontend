@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
@@ -17,7 +17,7 @@ interface Complaints{
 export default function RecentComplaints() {
   const [complaint, setComplaint] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
   
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -154,7 +154,7 @@ export default function RecentComplaints() {
                       <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
                       <p>No complaints found</p>
                       <Link href="/raise-complaint" className="text-primary hover:text-secondary transition-colors text-sm">
-                        Raise your first complaint →
+                        Raise your first complaint â†’
                       </Link>
                     </div>
                   </td>
@@ -187,3 +187,4 @@ export default function RecentComplaints() {
     </section>
   )
 }
+

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Search, Filter, RotateCcw, Calendar } from 'lucide-react'
@@ -41,7 +41,7 @@ export default function ComplaintsFilters({
   const [loading, setLoading] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com' as string
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com' as string
   if (!API_BASE) throw new Error('Missing NEXT_PUBLIC_API_URL')
 
   useEffect(() => {
@@ -270,3 +270,4 @@ export default function ComplaintsFilters({
     </div>
   )
 }
+

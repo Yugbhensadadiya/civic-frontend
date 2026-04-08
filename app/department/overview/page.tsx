@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useCallback } from "react"
 import {
@@ -12,7 +12,7 @@ import {
   Tooltip, PieChart, Pie, Cell
 } from "recharts"
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface DeptInfo {
   id: number; name: string; code: string; description: string
@@ -37,7 +37,7 @@ interface OverviewData {
   monthlyCounts: Record<string, number>; recentComplaints: RecentComplaint[]
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
@@ -53,7 +53,7 @@ const PRIORITY_CLS: Record<string, string> = {
   "Low":    "bg-green-100 text-green-700",
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function getHeaders(): Record<string, string> {
   const token = localStorage.getItem("departmentToken") || localStorage.getItem("access_token")
@@ -64,7 +64,7 @@ function getHeaders(): Record<string, string> {
 const sc = (s: string) => STATUS_CLS[s] ?? "bg-gray-100 text-gray-700"
 const pc = (p: string) => PRIORITY_CLS[p] ?? "bg-gray-100 text-gray-700"
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// â”€â”€â”€ Sub-components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function KpiCard({ label, value, sub, icon, iconCls, border }: {
   label: string; value: number | string; sub: string
@@ -98,7 +98,7 @@ function Card({ title, icon, iconCls, children, action }: {
   )
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function DepartmentOverviewPage() {
   const [data, setData] = useState<OverviewData | null>(null)
@@ -106,7 +106,7 @@ export default function DepartmentOverviewPage() {
   const [error, setError] = useState<string | null>(null)
   const [refreshing, setRefreshing] = useState(false)
 
-  const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   const fetchData = useCallback(async () => {
     try {
@@ -131,7 +131,7 @@ export default function DepartmentOverviewPage() {
     complaints: data?.monthlyCounts?.[String(i + 1)] ?? 0,
   }))
 
-  // ── Loading ───────────────────────────────────────────────────────────────────
+  // â”€â”€ Loading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   if (loading) {
     return (
       <div className="p-6 space-y-6">
@@ -148,7 +148,7 @@ export default function DepartmentOverviewPage() {
     )
   }
 
-  // ── Error ─────────────────────────────────────────────────────────────────────
+  // â”€â”€ Error â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   if (error) {
     return (
       <div className="p-6">
@@ -189,7 +189,7 @@ export default function DepartmentOverviewPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Department Overview</h1>
           <p className="text-sm text-gray-500 mt-0.5">
-            {department ? department.name : "All Departments"} — complete operational snapshot
+            {department ? department.name : "All Departments"} â€” complete operational snapshot
           </p>
         </div>
         <button onClick={handleRefresh} disabled={refreshing}
@@ -449,3 +449,4 @@ export default function DepartmentOverviewPage() {
     </div>
   )
 }
+

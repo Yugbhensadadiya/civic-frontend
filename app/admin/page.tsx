@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useCallback } from 'react'
 import {
@@ -11,7 +11,7 @@ import {
 } from 'lucide-react'
 import StatsCard from '@/components/ui/stats-card'
 
-const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 const CURRENT_YEAR = new Date().getFullYear()
 const YEAR_OPTIONS = [
   { label: 'Last 12 Months', value: 'rolling' },
@@ -48,7 +48,7 @@ async function apiFetch(path: string) {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
   if (token) headers['Authorization'] = `Bearer ${token}`
   const res = await fetch(`${API_BASE}${path}`, { headers })
-  if (!res.ok) throw new Error(`${path} → ${res.status}`)
+  if (!res.ok) throw new Error(`${path} â†’ ${res.status}`)
   return res.json()
 }
 
@@ -146,8 +146,8 @@ export default function AdminDashboard() {
         description: c.Description ?? '',
         status: c.status ?? 'Pending',
         priority: c.priority_level ?? 'Medium',
-        district: c.location_District ?? '—',
-        date: c.current_time ? new Date(c.current_time).toLocaleDateString() : '—',
+        district: c.location_District ?? 'â€”',
+        date: c.current_time ? new Date(c.current_time).toLocaleDateString() : 'â€”',
       })))
 
       const allUsers: any[] = usersData.results ?? usersData.data ?? (Array.isArray(usersData) ? usersData : [])
@@ -208,7 +208,7 @@ export default function AdminDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-            <p className="text-sm text-gray-500 mt-0.5">Last updated: {lastUpdated || '—'}</p>
+            <p className="text-sm text-gray-500 mt-0.5">Last updated: {lastUpdated || 'â€”'}</p>
           </div>
           <button onClick={fetchAll} disabled={loading}
             className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors shadow-sm">
@@ -448,7 +448,7 @@ export default function AdminDashboard() {
                         <p className="text-xs text-gray-500">{u.email}</p>
                       </div>
                     </div>
-                    <span className="text-xs text-gray-400">{u.date_joined ? new Date(u.date_joined).toLocaleDateString() : '—'}</span>
+                    <span className="text-xs text-gray-400">{u.date_joined ? new Date(u.date_joined).toLocaleDateString() : 'â€”'}</span>
                   </div>
                 ))}
               </div>
@@ -471,7 +471,7 @@ export default function AdminDashboard() {
                         <p className="text-xs text-gray-500">{u.email}</p>
                       </div>
                     </div>
-                    <span className="text-xs text-gray-400">{u.date_joined ? new Date(u.date_joined).toLocaleDateString() : '—'}</span>
+                    <span className="text-xs text-gray-400">{u.date_joined ? new Date(u.date_joined).toLocaleDateString() : 'â€”'}</span>
                   </div>
                 ))}
               </div>
@@ -485,3 +485,4 @@ export default function AdminDashboard() {
     </div>
   )
 }
+

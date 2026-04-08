@@ -184,7 +184,7 @@
   // Test API connectivity
   setTimeout(() => {
     console.log('🧪 TESTING API CONNECTIVITY...');
-    fetch('https://civic-backend-2.onrender.com/api/test/', {
+    fetch('https://civic-backend-iob6.onrender.com/api/test/', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     })

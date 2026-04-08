@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useContext } from 'react'
 import { Download, Filter, RefreshCw, FileText } from 'lucide-react'
@@ -85,7 +85,7 @@ export default function AllComplaintsPage() {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+        const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
         const res = await fetch(`${API_BASE_URL}/api/departments/`)
         if (!res.ok) throw new Error('Failed to fetch departments')
         const data = await res.json()
@@ -125,7 +125,7 @@ export default function AllComplaintsPage() {
 
         setKpi(transformedData)
       } catch (err: any) {
-        console.error('❌ KPI fetch error:', err)
+        console.error('âŒ KPI fetch error:', err)
         setError('Failed to fetch KPI data')
         setKpi({
           total_comp: 0,
@@ -200,7 +200,7 @@ export default function AllComplaintsPage() {
           }
         } catch (err: any) {
           // Log rich error info for debugging 404/403 issues
-          console.error('❌ Complaints fetch request failed:', {
+          console.error('âŒ Complaints fetch request failed:', {
             url: `${api.defaults.baseURL}${requestPath}`,
             status: err?.response?.status,
             data: err?.response?.data,
@@ -208,7 +208,7 @@ export default function AllComplaintsPage() {
           })
           // If backend returns 404 for an out-of-range page, step the page back and retry via effect
           if (err?.response?.status === 404 && currentPage > 1) {
-            console.warn(`Page ${currentPage} out of range — stepping back to previous page`)
+            console.warn(`Page ${currentPage} out of range â€” stepping back to previous page`)
             setCurrentPage(prev => Math.max(1, prev - 1))
             return
           }
@@ -216,7 +216,7 @@ export default function AllComplaintsPage() {
         }
         // (Handled above inside the request try/catch)
       } catch (err: any) {
-        console.error('❌ Complaints fetch error:', err)
+        console.error('âŒ Complaints fetch error:', err)
         setError('Failed to fetch complaints data')
         setComplaintsList([])
       } finally {
@@ -252,7 +252,7 @@ export default function AllComplaintsPage() {
     const pk = editingComplaint.id
     if (!pk) { alert('Cannot determine complaint id for update'); return }
     try {
-      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const payload = {
         title: editingComplaint.title,
         Description: editingComplaint.Description,
@@ -292,7 +292,7 @@ export default function AllComplaintsPage() {
     const pk = deletingComplaint.id
     if (!pk) { alert('Cannot determine complaint id for delete'); return }
     try {
-      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const res = await fetch(`${API_BASE_URL}/api/complaintdelete/${pk}/`, { method: 'DELETE' })
       if (!res.ok) throw new Error(`${res.status}`)
       setComplaintsList(prev => prev.filter(c => c.id !== pk))
@@ -334,7 +334,7 @@ export default function AllComplaintsPage() {
       }
       setKpi(transformedData)
     } catch (err: any) {
-      console.error('❌ KPI refresh error:', err)
+      console.error('âŒ KPI refresh error:', err)
       setError('Failed to refresh KPI data')
       setKpi({
         total_comp: 0,
@@ -518,7 +518,7 @@ export default function AllComplaintsPage() {
                   ].map(({ label, value }) => (
                     <div key={label}>
                       <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">{label}</p>
-                      <p className="text-sm font-medium text-gray-900">{value || '—'}</p>
+                      <p className="text-sm font-medium text-gray-900">{value || 'â€”'}</p>
                     </div>
                   ))}
                 </div>
@@ -527,7 +527,7 @@ export default function AllComplaintsPage() {
               {/* Location */}
               <div className="bg-white rounded-xl border border-gray-100 p-5">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Location</p>
-                <p className="text-sm text-gray-800">{selectedComplaint.location_address || '—'}</p>
+                <p className="text-sm text-gray-800">{selectedComplaint.location_address || 'â€”'}</p>
               </div>
 
               {/* Description */}
@@ -542,7 +542,7 @@ export default function AllComplaintsPage() {
               {(selectedComplaint as any).image_video && (() => {
                 const imgUrl = (selectedComplaint as any).image_video
                 const isImg = /\.(jpg|jpeg|png|gif|webp)$/i.test(imgUrl)
-                const fullUrl = imgUrl.startsWith('http') ? imgUrl : `${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}${imgUrl}`
+                const fullUrl = imgUrl.startsWith('http') ? imgUrl : `${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}${imgUrl}`
                 return (
                   <div className="bg-white rounded-xl border border-gray-100 p-5">
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Attached Media</p>
@@ -656,3 +656,4 @@ export default function AllComplaintsPage() {
     </div>
   );
 }
+

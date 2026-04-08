@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { X, Lock, Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react'
@@ -7,7 +7,7 @@ interface Props {
   onClose: () => void
 }
 
-const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
 function StrengthBar({ password }: { password: string }) {
   let score = 0
@@ -106,7 +106,7 @@ export default function ChangePasswordModal({ onClose }: Props) {
             <div className="flex flex-col items-center py-6 text-center">
               <CheckCircle className="w-12 h-12 text-green-500 mb-3" />
               <p className="font-semibold text-gray-900">Password changed successfully!</p>
-              <p className="text-sm text-gray-500 mt-1">Closing automatically…</p>
+              <p className="text-sm text-gray-500 mt-1">Closing automaticallyâ€¦</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -162,7 +162,7 @@ export default function ChangePasswordModal({ onClose }: Props) {
                 </div>
                 {form.confirm && form.newPass && (
                   <p className={`text-xs mt-1 font-medium ${form.newPass === form.confirm ? 'text-green-600' : 'text-red-500'}`}>
-                    {form.newPass === form.confirm ? '✓ Passwords match' : '✗ Passwords do not match'}
+                    {form.newPass === form.confirm ? 'âœ“ Passwords match' : 'âœ— Passwords do not match'}
                   </p>
                 )}
               </div>
@@ -185,7 +185,7 @@ export default function ChangePasswordModal({ onClose }: Props) {
                   disabled={loading}
                   className="flex-1 px-4 py-2.5 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Updating…' : 'Update Password'}
+                  {loading ? 'Updatingâ€¦' : 'Update Password'}
                 </button>
               </div>
             </form>
@@ -195,3 +195,4 @@ export default function ChangePasswordModal({ onClose }: Props) {
     </div>
   )
 }
+

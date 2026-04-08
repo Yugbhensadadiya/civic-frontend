@@ -82,13 +82,13 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIx...
 ```javascript
 // Check API URL in browser console:
 console.log('API URL:', getApiBaseUrl());
-// Should be: https://civic-backend-2.onrender.com
+// Should be: https://civic-backend-iob6.onrender.com
 ```
 
 #### **Test Backend Directly:**
 ```bash
 # Test if backend is running:
-curl -X POST https://civic-backend-2.onrender.com/api/login/ \
+curl -X POST https://civic-backend-iob6.onrender.com/api/login/ \
   -H "Content-Type: application/json" \
   -d '{"email":"test","password":"test"}'
 ```
@@ -106,7 +106,7 @@ curl -X POST https://civic-backend-2.onrender.com/api/login/ \
 #### **Check Frontend Environment:**
 ```javascript
 // Add to .env.local:
-NEXT_PUBLIC_API_URL=https://civic-backend-2.onrender.com
+NEXT_PUBLIC_API_URL=https://civic-backend-iob6.onrender.com
 ```
 
 #### **Check Backend Environment:**
@@ -131,7 +131,7 @@ DEBUG=False
 1. Open browser console
 2. Paste and run:
 ```javascript
-fetch('https://civic-backend-2.onrender.com/api/login/', {
+fetch('https://civic-backend-iob6.onrender.com/api/login/', {
   method: 'POST',
   headers: {'Content-Type': 'application/json'},
   body: JSON.stringify({email: 'test@test.com', password: 'test123'})
@@ -158,7 +158,7 @@ fetch('https://civic-backend-2.onrender.com/api/login/', {
 ### **Fix 1: Update Environment Variables**
 ```bash
 # Frontend .env.local
-NEXT_PUBLIC_API_URL=https://civic-backend-2.onrender.com
+NEXT_PUBLIC_API_URL=https://civic-backend-iob6.onrender.com
 
 # Backend Render Environment
 GOOGLE_CLIENT_ID=your-actual-google-client-id
@@ -175,7 +175,7 @@ sessionStorage.clear();
 ### **Fix 3: Check Backend Status**
 ```bash
 # Verify backend is running
-curl -I https://civic-backend-2.onrender.com/api/test/
+curl -I https://civic-backend-iob6.onrender.com/api/test/
 ```
 
 ---

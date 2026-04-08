@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
@@ -27,7 +27,7 @@ export default function AnalyticsCharts() {
   })
   const [monthlyData, setMonthlyData] = useState<MonthlyData>({})
   const [loading, setLoading] = useState(true)
-  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   useEffect(() => {
     const fetchData = async () => {
@@ -188,7 +188,7 @@ export default function AnalyticsCharts() {
                 <div className="w-40 h-40 rounded-full border-8 border-gray-200 flex items-center justify-center">
                   <div className="absolute w-32 h-32 rounded-full bg-background flex items-center justify-center">
                     <div className="text-center">
-                      <p className="text-2xl mb-2">📊</p>
+                      <p className="text-2xl mb-2">ðŸ“Š</p>
                       <p className="text-sm text-muted-foreground">No complaints yet</p>
                       <p className="text-lg font-bold text-primary">{statusData.total_comp}</p>
                     </div>
@@ -264,3 +264,4 @@ export default function AnalyticsCharts() {
     </section>
   )
 }
+

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect } from "react"
 import { User, Home, Settings, LogOut, Menu } from "lucide-react"
@@ -24,7 +24,7 @@ export default function DashboardHeader() {
         return
       }
       
-      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const response = await fetch(`${API_BASE_URL}/api/userdetails/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -146,3 +146,4 @@ export default function DashboardHeader() {
     </div>
   )
 }
+

@@ -116,7 +116,7 @@ export const getCSPHeaders = () => {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self'",
-      "connect-src 'self' https://civic-backend-2.onrender.com",
+      "connect-src 'self' https://civic-backend-iob6.onrender.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'"

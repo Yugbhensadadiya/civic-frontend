@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import React, { useState, useEffect } from 'react'
 import {
@@ -89,7 +89,7 @@ export default function StatusChangePage() {
   const [updating, setUpdating] = useState(false)
   const [updateError, setUpdateError] = useState('')
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   const getHeaders = () => {
     const token = localStorage.getItem('access_token')
@@ -179,7 +179,7 @@ export default function StatusChangePage() {
   return (
     <div className="p-6 space-y-5">
 
-      {/* ── Page Header ── */}
+      {/* â”€â”€ Page Header â”€â”€ */}
       <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="bg-gradient-to-r from-sidebar-primary to-sidebar-primary/80 px-6 py-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -231,7 +231,7 @@ export default function StatusChangePage() {
         </div>
       </div>
 
-      {/* ── Filters ── */}
+      {/* â”€â”€ Filters â”€â”€ */}
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm px-5 py-3">
         <div className="flex flex-col sm:flex-row gap-3 items-center">
           <div className="relative flex-1">
@@ -269,7 +269,7 @@ export default function StatusChangePage() {
         </div>
       </div>
 
-      {/* ── Kanban Board ── */}
+      {/* â”€â”€ Kanban Board â”€â”€ */}
       {loading ? (
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sidebar-primary" />
@@ -317,7 +317,7 @@ export default function StatusChangePage() {
         </div>
       )}
 
-      {/* ── Confirm Modal ── */}
+      {/* â”€â”€ Confirm Modal â”€â”€ */}
       {remarksModal && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl">
@@ -325,7 +325,7 @@ export default function StatusChangePage() {
               <div>
                 <h3 className="text-base font-bold text-gray-900">Confirm Status Change</h3>
                 <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">
-                  #{remarksModal.complaint.id} — {remarksModal.complaint.title}
+                  #{remarksModal.complaint.id} â€” {remarksModal.complaint.title}
                 </p>
               </div>
               <button onClick={closeModal} className="text-gray-300 hover:text-gray-500 mt-0.5">
@@ -387,7 +387,7 @@ export default function StatusChangePage() {
   )
 }
 
-// ── Kanban Card ─────────────────────────────────────────────────────────────
+// â”€â”€ Kanban Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function KanbanCard({
   complaint, col, onAdvance,
 }: {
@@ -494,7 +494,7 @@ function KanbanCard({
   )
 }
 
-// ── Status Pill ─────────────────────────────────────────────────────────────
+// â”€â”€ Status Pill â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function StatusPill({ status }: { status: string }) {
   const map: Record<string, { label: string; cls: string; Icon: React.ElementType }> = {
     Pending:      { label: 'Pending',    cls: 'bg-yellow-100 text-yellow-700 border-yellow-200', Icon: Clock },
@@ -510,3 +510,4 @@ function StatusPill({ status }: { status: string }) {
     </span>
   )
 }
+

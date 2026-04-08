@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
@@ -39,7 +39,7 @@ const priorityColors: Record<string, string> = {
   'Low':    'bg-green-500',
 }
 
-const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
 function getAuthHeaders(): Record<string, string> {
   const token = typeof window !== 'undefined'
@@ -71,7 +71,7 @@ export default function ComplaintDetailsPage({ params }: { params: Promise<{ id:
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
     if (!token || token === 'undefined' || token === 'null') return
-    const API_BASE_LOCAL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+    const API_BASE_LOCAL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
     fetch(`${API_BASE_LOCAL}/api/department/dashboard/`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data?.department?.category) setDeptName(data.department.category) })
@@ -264,7 +264,7 @@ export default function ComplaintDetailsPage({ params }: { params: Promise<{ id:
 
             {/* Media block removed to avoid duplicate image display (sidebar has it). */}
 
-            {/* ── Complaint Status Timeline ── */}
+            {/* â”€â”€ Complaint Status Timeline â”€â”€ */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
                 <Activity className="w-5 h-5 text-blue-500" />Complaint Status
@@ -435,3 +435,4 @@ export default function ComplaintDetailsPage({ params }: { params: Promise<{ id:
     </div>
   )
 }
+

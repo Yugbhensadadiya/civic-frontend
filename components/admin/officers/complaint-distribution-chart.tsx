@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
@@ -27,7 +27,7 @@ export default function ComplaintDistributionChart() {
   useEffect(() => {
     async function fetchChartData() {
       try {
-        const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+        const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
         const token = localStorage.getItem('access_token')
         
         const headers = {
@@ -231,3 +231,4 @@ export default function ComplaintDistributionChart() {
     </div>
   )
 }
+

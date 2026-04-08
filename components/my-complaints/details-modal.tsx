@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { X, CheckCircle, Clock, MessageSquare, Share2, MapPin, Calendar, User, FileText, AlertCircle, Download, Activity } from 'lucide-react'
@@ -29,7 +29,7 @@ interface ComplaintDetailsModalProps {
   onClose: () => void
 }
 
-const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
 export default function ComplaintDetailsModal({ complaint, onClose }: { complaint: Complaint; onClose: () => void }) {
   const [activeTab, setActiveTab] = useState('details')
@@ -148,7 +148,7 @@ export default function ComplaintDetailsModal({ complaint, onClose }: { complain
         {/* Content */}
         <div className="p-6 overflow-y-auto max-h-[60vh] bg-gray-50">
 
-          {/* ── Details Tab ── */}
+          {/* â”€â”€ Details Tab â”€â”€ */}
           {activeTab === 'details' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -258,7 +258,7 @@ export default function ComplaintDetailsModal({ complaint, onClose }: { complain
             </div>
           )}
 
-          {/* ── Status Tab ── */}
+          {/* â”€â”€ Status Tab â”€â”€ */}
           {activeTab === 'status' && (
             <div className="space-y-6">
               {/* Current status badge */}
@@ -269,7 +269,7 @@ export default function ComplaintDetailsModal({ complaint, onClose }: { complain
                     {complaint.status}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500">Filed on {complaint.current_time || '—'}</p>
+                <p className="text-xs text-gray-500">Filed on {complaint.current_time || 'â€”'}</p>
               </div>
 
               {/* Timeline */}
@@ -293,7 +293,7 @@ export default function ComplaintDetailsModal({ complaint, onClose }: { complain
             </div>
           )}
 
-          {/* ── Actions Tab ── */}
+          {/* â”€â”€ Actions Tab â”€â”€ */}
           {activeTab === 'actions' && (
             <div className="space-y-4">
               <div className="bg-white rounded-lg p-6 border border-gray-200">
@@ -334,3 +334,4 @@ export default function ComplaintDetailsModal({ complaint, onClose }: { complain
     </div>
   )
 }
+

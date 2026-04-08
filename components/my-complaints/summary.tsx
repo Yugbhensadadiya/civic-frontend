@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { AlertCircle, CheckCircle, Clock, Zap, RefreshCw } from 'lucide-react'
@@ -38,7 +38,7 @@ export default function ComplaintsSummary() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   const fetchStats = async () => {
     setLoading(true); setError(false)
@@ -99,3 +99,4 @@ export default function ComplaintsSummary() {
     </div>
   )
 }
+

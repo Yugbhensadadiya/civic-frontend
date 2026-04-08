@@ -10,13 +10,13 @@ To fix the "Network Error" and "process is not defined" issues in production, en
 4. Add the following variable:
 
 **Variable Name:** `NEXT_PUBLIC_API_URL`  
-**Value:** `https://civic-backend-2.onrender.com` (or your Render backend URL)  
+**Value:** `https://civic-backend-iob6.onrender.com` (or your Render backend URL)  
 **Environments:** Select Production, Preview, and Development as needed
 
 ### Alternative: Using Vercel CLI
 
 ```bash
-vercel env add NEXT_PUBLIC_API_URL https://civic-backend-2.onrender.com
+vercel env add NEXT_PUBLIC_API_URL https://civic-backend-iob6.onrender.com
 ```
 
 ### Redeploy After Setting Env Vars
@@ -33,12 +33,12 @@ Or manually redeploy from the Vercel dashboard with cache disabled.
 
 In browser console, you should see:
 ```
-[API Config] Using API URL: https://civic-backend-2.onrender.com
+[API Config] Using API URL: https://civic-backend-iob6.onrender.com
 ```
 
 If you see a warning like:
 ```
-[API Config] NEXT_PUBLIC_API_URL not set, using fallback: https://civic-backend-2.onrender.com
+[API Config] NEXT_PUBLIC_API_URL not set, using fallback: https://civic-backend-iob6.onrender.com
 ```
 
 Then the env var is not set in Vercel, but the fallback is working.

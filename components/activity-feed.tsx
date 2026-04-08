@@ -37,7 +37,7 @@ export default function ActivityFeed() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const getApiBase = () => {
-    return (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+    return (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
   }
 
 useEffect(() => {

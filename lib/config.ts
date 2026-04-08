@@ -7,8 +7,8 @@ export function getApiBaseUrl(): string {
   const envUrl =
     (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) ||
     (typeof process !== 'undefined' ? process.env.VITE_API_URL : undefined) ||
-    'https://civic-backend-2.onrender.com'
-  const productionFallback = 'https://civic-backend-2.onrender.com'
+    'https://civic-backend-iob6.onrender.com'
+  const productionFallback = 'https://civic-backend-iob6.onrender.com'
   
   const apiUrl = (envUrl || productionFallback).replace(/\/+$/, '')
   
@@ -29,5 +29,5 @@ export const API_BASE_URL = typeof window !== 'undefined'
   : (
       (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) ||
       (typeof process !== 'undefined' ? process.env.VITE_API_URL : undefined) ||
-      'https://civic-backend-2.onrender.com'
+      'https://civic-backend-iob6.onrender.com'
     ).replace(/\/+$/, '')

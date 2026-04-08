@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect } from "react"
 import { X, UserPlus } from "lucide-react"
@@ -38,7 +38,7 @@ const ROLE_BADGE: Record<string, string> = {
 }
 
 export default function AddOfficerModal({ open, onClose, onSuccess }: AddOfficerModalProps) {
-  const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   const [formData, setFormData] = useState<FormData>({
     officer_id: '', name: '', email: '', phone: '',
@@ -52,13 +52,13 @@ export default function AddOfficerModal({ open, onClose, onSuccess }: AddOfficer
   const [submitting, setSubmitting] = useState(false)
   const [animateIn,  setAnimateIn]  = useState(false)
 
-  // ── Fetch on open ─────────────────────────────────────────────────────────
+  // â”€â”€ Fetch on open â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   useEffect(() => {
     if (!open) { setAnimateIn(false); return }
     requestAnimationFrame(() => setAnimateIn(true))
     resetForm()
 
-    // Hardcoded fallback — all 16 departments matching the DB
+    // Hardcoded fallback â€” all 16 departments matching the DB
     const FALLBACK_DEPTS: Department[] = [
       { id: 1,  code: 'ROADS',                name: 'Roads & Infrastructure' },
       { id: 2,  code: 'TRAFFIC',              name: 'Traffic & Road Safety' },
@@ -238,7 +238,7 @@ export default function AddOfficerModal({ open, onClose, onSuccess }: AddOfficer
             </div>
           </div>
 
-          {/* Email — select from registered users */}
+          {/* Email â€” select from registered users */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email <span className="text-red-500">*</span>
@@ -251,11 +251,11 @@ export default function AddOfficerModal({ open, onClose, onSuccess }: AddOfficer
               className={inputCls('email')}
             >
               <option value="">
-                {loadingUsers ? 'Loading emails...' : userEmails.length === 0 ? 'No users found' : '— Select registered user email —'}
+                {loadingUsers ? 'Loading emails...' : userEmails.length === 0 ? 'No users found' : 'â€” Select registered user email â€”'}
               </option>
               {userEmails.map(u => (
                 <option key={u.id} value={u.email}>
-                  {u.email}{u.name && u.name !== u.email ? ` (${u.name})` : ''} · {u.role}
+                  {u.email}{u.name && u.name !== u.email ? ` (${u.name})` : ''} Â· {u.role}
                 </option>
               ))}
             </select>
@@ -309,7 +309,7 @@ export default function AddOfficerModal({ open, onClose, onSuccess }: AddOfficer
             </label>
             <select name="department_code" value={formData.department_code}
               onChange={handleChange} className={inputCls('department_code')}>
-              <option value="">— Select Department —</option>
+              <option value="">â€” Select Department â€”</option>
               {departments.map(d => (
                 <option key={d.code} value={d.code}>{d.name}</option>
               ))}
@@ -342,3 +342,4 @@ export default function AddOfficerModal({ open, onClose, onSuccess }: AddOfficer
     </div>
   )
 }
+

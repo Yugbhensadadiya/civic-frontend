@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import React, { useState, useEffect } from 'react'
 import { 
@@ -50,7 +50,7 @@ export default function OfficerProfilePage() {
   const [availabilityUpdating, setAvailabilityUpdating] = useState(false)
   const [showPasswordModal, setShowPasswordModal] = useState(false)
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   // Fetch officer profile
   const fetchProfile = async () => {
@@ -208,7 +208,7 @@ export default function OfficerProfilePage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">{profile.name}</h1>
-              <p className="text-sm text-gray-500 mt-1">Officer • {profile.department || 'Department'}</p>
+              <p className="text-sm text-gray-500 mt-1">Officer â€¢ {profile.department || 'Department'}</p>
             </div>
           </div>
 
@@ -473,3 +473,4 @@ export default function OfficerProfilePage() {
     </div>
   )
 }
+

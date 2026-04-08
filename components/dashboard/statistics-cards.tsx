@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { AlertCircle, CheckCircle, Clock, TrendingUp } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -53,7 +53,7 @@ export default function StatisticsCards() {
   const [stats, setStats] = useState<StatData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
   
   useEffect(() => {
     fetchStatistics()
@@ -219,3 +219,4 @@ export default function StatisticsCards() {
     </div>
   )
 }
+

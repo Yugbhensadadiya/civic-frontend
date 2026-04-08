@@ -4,7 +4,7 @@ import { tokenRefreshService } from './tokenRefresh'
 import { handleError } from './errorHandler'
 
 const api = axios.create({
-  baseURL: typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com',
+  baseURL: typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-iob6.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -64,7 +64,7 @@ api.interceptors.response.use(
     
     // Log detailed error info for debugging
     if (error.code === 'ERR_NETWORK' || !error.response) {
-      const currentBaseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com'
+      const currentBaseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-iob6.onrender.com'
       console.error('Network error or no response in API:', error.message, 'API_BASE_URL:', currentBaseUrl)
     }
     
@@ -118,7 +118,7 @@ export const apiDelete = async (url: string) => {
 // Public API functions (no auth required)
 export const publicApiGet = async (url: string, params?: any) => {
   try {
-    const baseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com'
+    const baseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-iob6.onrender.com'
     const response = await axios.get(`${baseUrl}${url}`, {
       params,
       headers: {
@@ -135,7 +135,7 @@ export const publicApiGet = async (url: string, params?: any) => {
 // File upload helper
 export const uploadFile = async (url: string, file: File, additionalData?: any) => {
   try {
-    const baseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-2.onrender.com'
+    const baseUrl = typeof window !== 'undefined' ? getApiBaseUrl() : 'https://civic-backend-iob6.onrender.com'
     const formData = new FormData()
     formData.append('file', file)
     

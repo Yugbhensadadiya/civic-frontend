@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Search, X, SlidersHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -37,7 +37,7 @@ export default function ComplaintsFilter({
 }: ComplaintsFilterProps) {
   const [categories, setCategories] = useState<Array<{ id: number; name: string }>>([])
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   useEffect(() => {
     let mounted = true
@@ -140,3 +140,4 @@ export default function ComplaintsFilter({
     </section>
   )
 }
+

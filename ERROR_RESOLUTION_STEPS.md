@@ -25,7 +25,7 @@ Server not found
 ### **Immediate Fix:**
 ```javascript
 // 1. Check if backend is running
-fetch('https://civic-backend-2.onrender.com/api/test/')
+fetch('https://civic-backend-iob6.onrender.com/api/test/')
   .then(r => r.json())
   .then(d => console.log('Backend status:', d))
 
@@ -34,7 +34,7 @@ fetch('https://civic-backend-2.onrender.com/api/test/')
 
 // 3. Fix environment variable
 // Create .env.local with:
-NEXT_PUBLIC_API_URL=https://civic-backend-2.onrender.com
+NEXT_PUBLIC_API_URL=https://civic-backend-iob6.onrender.com
 ```
 
 ---
@@ -42,7 +42,7 @@ NEXT_PUBLIC_API_URL=https://civic-backend-2.onrender.com
 ## **🔴 ERROR TYPE: "CORS policy violation"**
 ### **Symptoms:**
 ```
-Access to fetch at 'https://civic-backend-2.onrender.com/api/login/' from origin 'https://your-frontend.vercel.app' has been blocked by CORS policy
+Access to fetch at 'https://civic-backend-iob6.onrender.com/api/login/' from origin 'https://your-frontend.vercel.app' has been blocked by CORS policy
 ```
 
 ### **Immediate Fix:**
@@ -139,12 +139,12 @@ window.location.href = '/login';
 ### **Step 2: Test API Directly**
 ```bash
 # Test login endpoint:
-curl -X POST https://civic-backend-2.onrender.com/api/login/ \
+curl -X POST https://civic-backend-iob6.onrender.com/api/login/ \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"test123"}'
 
 # Test Google login endpoint:
-curl -X POST https://civic-backend-2.onrender.com/api/google-login/ \
+curl -X POST https://civic-backend-iob6.onrender.com/api/google-login/ \
   -H "Content-Type: application/json" \
   -d '{"token":"test-token"}'
 ```
@@ -156,7 +156,7 @@ console.log('API URL:', getApiBaseUrl());
 console.log('Environment:', process.env.NODE_ENV);
 
 // Expected:
-// API URL: https://civic-backend-2.onrender.com
+// API URL: https://civic-backend-iob6.onrender.com
 // Environment: production
 ```
 
@@ -173,7 +173,7 @@ console.log('Environment:', process.env.NODE_ENV);
 ### **Fix 1: Environment Variables**
 ```bash
 # Frontend .env.local
-NEXT_PUBLIC_API_URL=https://civic-backend-2.onrender.com
+NEXT_PUBLIC_API_URL=https://civic-backend-iob6.onrender.com
 
 # Backend Render Environment
 GOOGLE_CLIENT_ID=your-actual-google-client-id

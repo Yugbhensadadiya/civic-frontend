@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts'
@@ -38,7 +38,7 @@ export default function ComplaintStatusChart() {
 
   const fetchStatusData = async () => {
     try {
-      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const token = localStorage.getItem('access_token')
       const isTokenValid = Boolean(token && token !== 'undefined' && token !== 'null')
       
@@ -105,7 +105,7 @@ export default function ComplaintStatusChart() {
 
   const fetchMonthlyData = async () => {
     try {
-      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const token = localStorage.getItem('access_token')
       const isTokenValid = Boolean(token && token !== 'undefined' && token !== 'null')
       
@@ -394,3 +394,4 @@ export default function ComplaintStatusChart() {
     </div>
   )
 }
+

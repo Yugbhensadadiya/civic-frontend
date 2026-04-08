@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Edit2, Trash2, Search, RefreshCw, Building2, Users, Mail, Phone, Calendar, User, AlertTriangle, ChevronDown } from 'lucide-react'
@@ -61,7 +61,7 @@ export default function DepartmentsPage() {
     head_officer: ''
   })
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
   const itemsPerPage = 10
 
   // Year selector for dept-wise complaints chart
@@ -251,7 +251,7 @@ export default function DepartmentsPage() {
       const deptStats: any[] = data.department_statistics ?? []
 
       if (deptStats.length > 0) {
-        // Use department_statistics — real data per Department record
+        // Use department_statistics â€” real data per Department record
         setDeptComplaintData(
           deptStats
             .sort((a, b) => String(a.name || a.category).localeCompare(String(b.name || b.category)))
@@ -692,7 +692,7 @@ export default function DepartmentsPage() {
                     onChange={(e) => setForm({...form, contact_email: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sidebar-primary focus:border-sidebar-primary"
                   >
-                    <option value="">— Select user email —</option>
+                    <option value="">â€” Select user email â€”</option>
                     {userEmails.map(u => (
                       <option key={u.id} value={u.email}>
                         {u.email} ({u.name})
@@ -771,3 +771,4 @@ export default function DepartmentsPage() {
     </div>
   )
 }
+

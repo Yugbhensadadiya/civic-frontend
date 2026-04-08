@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
@@ -56,7 +56,7 @@ export default function CartPage() {
         }
 
         // Fetch cart items from API
-        const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/cart/`, {
+        const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/cart/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -230,7 +230,7 @@ export default function CartPage() {
                             <h3 className="font-semibold text-gray-900 text-lg">{item.name}</h3>
                             <p className="text-sm text-gray-600 mt-1">{item.category}</p>
                             <p className="text-gray-800 mt-2">{item.description}</p>
-                            <p className="text-2xl font-bold text-gray-900">₹{item.price.toLocaleString()}</p>
+                            <p className="text-2xl font-bold text-gray-900">â‚¹{item.price.toLocaleString()}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -272,17 +272,17 @@ export default function CartPage() {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Subtotal</span>
-                    <span className="font-semibold text-gray-900">₹{getSubtotal().toLocaleString()}</span>
+                    <span className="font-semibold text-gray-900">â‚¹{getSubtotal().toLocaleString()}</span>
                   </div>
                   
                   <div className="flex justify-between">
                     <span className="text-gray-600">Tax (18%)</span>
-                    <span className="font-semibold text-gray-900">₹{getTax().toLocaleString()}</span>
+                    <span className="font-semibold text-gray-900">â‚¹{getTax().toLocaleString()}</span>
                   </div>
                   
                   <div className="flex justify-between">
                     <span className="text-lg font-bold text-gray-900">Total</span>
-                    <span className="text-lg font-bold text-green-600">₹{getTotal().toLocaleString()}</span>
+                    <span className="text-lg font-bold text-green-600">â‚¹{getTotal().toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -299,3 +299,4 @@ export default function CartPage() {
     </div>
   )
 }
+

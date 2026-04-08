@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect } from "react"
 import { X, Save, User, Mail, Phone, Shield } from "lucide-react"
@@ -46,7 +46,7 @@ export default function EditOfficerModal({ officer, open, onClose, onSuccess }: 
     setError("")
 
     try {
-      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const token = localStorage.getItem('access_token')
       
       const response = await fetch(`${API_BASE_URL}/api/officerupdate/${officer?.officer_id}/`, {
@@ -224,3 +224,4 @@ export default function EditOfficerModal({ officer, open, onClose, onSuccess }: 
     </div>
   )
 }
+

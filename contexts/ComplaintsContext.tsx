@@ -46,7 +46,7 @@ export function ComplaintsProvider({ children }: { children: ReactNode }) {
       setLoading(true)
       setError(null)
       
-      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const token = localStorage.getItem('access_token')
       const headers: Record<string, string> = {
         'Content-Type': 'application/json'

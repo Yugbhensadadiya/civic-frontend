@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area } from 'recharts'
@@ -34,7 +34,7 @@ export default function CategoryComplaintsChart() {
   const fetchCategoryComplaints = async () => {
     try {
       setLoading(true)
-      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       
       console.log('Fetching from:', `${API_BASE}/api/totalcategories/`)
       const response = await fetch(`${API_BASE}/api/totalcategories/`)
@@ -56,7 +56,7 @@ export default function CategoryComplaintsChart() {
 
   const fetchMonthlyTrends = async () => {
     try {
-      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       
       // Mock monthly data for now - you can create a real endpoint
       const mockMonthlyData: MonthlyData[] = [
@@ -344,3 +344,4 @@ export default function CategoryComplaintsChart() {
     </div>
   )
 }
+

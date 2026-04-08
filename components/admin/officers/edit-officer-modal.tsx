@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { X, Save, Loader2 } from 'lucide-react'
@@ -48,7 +48,7 @@ export default function EditOfficerModal({ officer, isOpen, onClose, onSave }: E
       setLoading(true)
       setError('')
       
-      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const response = await fetch(`${API_BASE}/api/officerupdate/${formData.officer_id}/`, {
         method: 'PUT',
         headers: {
@@ -202,3 +202,4 @@ export default function EditOfficerModal({ officer, isOpen, onClose, onSave }: E
     </div>
   )
 }
+

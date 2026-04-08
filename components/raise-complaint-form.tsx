@@ -45,7 +45,7 @@ export default function RaiseComplaintForm() {
 
   // Load departments from DB (Neon via Render API)
   useEffect(() => {
-    const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+    const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
     setDepartmentsMessage('')
     fetch(`${API_BASE}/api/departments/`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error('fetch failed'))))
@@ -236,7 +236,7 @@ export default function RaiseComplaintForm() {
         }
       })
 
-      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       
       if (uploadedFiles.length > 0) {
         // Option A Restored: Pipe standard binary packet globally to backend explicitly!

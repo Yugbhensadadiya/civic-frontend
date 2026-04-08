@@ -104,7 +104,7 @@
       console.log('⚙️ FIXING ENVIRONMENT ERRORS...');
       
       // Set correct API URL dynamically
-      const correctApiUrl = 'https://civic-backend-2.onrender.com';
+      const correctApiUrl = 'https://civic-backend-iob6.onrender.com';
       
       // Override getApiBaseUrl if it exists
       if (typeof window.getApiBaseUrl === 'function') {

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect } from "react"
 import {
@@ -82,7 +82,7 @@ export default function AdminSettingsPage() {
       setQueryLoading(true)
       setQueryError("")
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/contact/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/contact/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ export default function AdminSettingsPage() {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/notification-settings/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/admin/notification-settings/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -133,7 +133,7 @@ export default function AdminSettingsPage() {
   const fetchProfileData = async () => {
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/profile/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/admin/profile/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -181,7 +181,7 @@ export default function AdminSettingsPage() {
   const fetchSystemSettings = async () => {
     try {
       const token = localStorage.getItem('access_token')
-      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/system-settings/`, {
+      const response = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/admin/system-settings/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -224,7 +224,7 @@ export default function AdminSettingsPage() {
       const token = localStorage.getItem('access_token')
       
       if (section === "profile" || section === "all") {
-        const profileResponse = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/update-profile/`, {
+        const profileResponse = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/admin/update-profile/`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -251,7 +251,7 @@ export default function AdminSettingsPage() {
       }
       
       if (section === "system" || section === "all") {
-        const systemResponse = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/system-settings/`, {
+        const systemResponse = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/admin/system-settings/`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -273,7 +273,7 @@ export default function AdminSettingsPage() {
       }
 
       if (section === "notifications" || section === "all") {
-        const notificationsResponse = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/admin/notification-settings/`, {
+        const notificationsResponse = await fetch(`${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/admin/notification-settings/`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -307,7 +307,7 @@ export default function AdminSettingsPage() {
     try {
       const token = localStorage.getItem('access_token')
       const res = await fetch(
-        `${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'}/api/contact/?id=${queryId}`,
+        `${(typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'}/api/contact/?id=${queryId}`,
         { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } }
       )
       if (res.ok) {
@@ -815,7 +815,7 @@ export default function AdminSettingsPage() {
                         <div>
                           <p className="text-sm font-medium text-slate-800">{log.user}</p>
                           <p className="text-xs text-slate-500">{log.action}</p>
-                          <p className="text-xs text-slate-400">{log.ip} · {new Date(log.timestamp).toLocaleString()}</p>
+                          <p className="text-xs text-slate-400">{log.ip} Â· {new Date(log.timestamp).toLocaleString()}</p>
                         </div>
                       </div>
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${
@@ -884,7 +884,7 @@ export default function AdminSettingsPage() {
                             <Database className="w-4 h-4 text-slate-400" />
                             <div>
                               <p className="text-sm font-medium text-slate-800">{backup.name}</p>
-                              <p className="text-xs text-slate-500">{backup.size} · {backup.date}</p>
+                              <p className="text-xs text-slate-500">{backup.size} Â· {backup.date}</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
@@ -913,3 +913,4 @@ export default function AdminSettingsPage() {
     </div>
   )
 }
+

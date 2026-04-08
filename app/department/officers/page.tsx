@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect } from "react"
 import { UserPlus } from "lucide-react"
@@ -19,7 +19,7 @@ export default function DepartmentOfficersPage() {
   useEffect(() => {
     const token = localStorage.getItem('access_token')
     if (!token || token === 'undefined' || token === 'null') return
-    const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+    const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
     fetch(`${API}/api/department/dashboard/`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data?.department?.category) setDeptName(data.department.category) })
@@ -34,7 +34,7 @@ export default function DepartmentOfficersPage() {
     }
 
     try {
-      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+      const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
       const token = localStorage.getItem('access_token')
       
       const url = `${API_BASE_URL}/api/officerdelete/${officerId}/`
@@ -89,7 +89,7 @@ export default function DepartmentOfficersPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-slate-800">
-              {deptName ? `${deptName} Department — Officers` : 'Officers'}
+              {deptName ? `${deptName} Department â€” Officers` : 'Officers'}
             </h1>
             <p className="text-slate-500 mt-1 text-sm">
               {deptName
@@ -148,3 +148,4 @@ export default function DepartmentOfficersPage() {
     </div>
   )
 }
+

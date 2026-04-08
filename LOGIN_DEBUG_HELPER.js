@@ -1,6 +1,6 @@
 // Login Debug Helper - Test API endpoints directly
 
-const API_BASE_URL = 'https://civic-backend-2.onrender.com';
+const API_BASE_URL = 'https://civic-backend-iob6.onrender.com';
 
 // Test regular login
 async function testRegularLogin() {

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import React, { useState, useEffect } from 'react'
 import { Users, Activity, AlertCircle, TrendingUp, Search, Edit, Trash2, Shield, RefreshCw } from 'lucide-react'
@@ -62,7 +62,7 @@ export default function DepartmentUsersPage() {
     roleDistribution: []
   })
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   // Calculate monthly registrations from users.
   // If `year` === 'rolling' => last 12 months (oldest -> newest).
@@ -1079,3 +1079,4 @@ export default function DepartmentUsersPage() {
     </div>
   )
 }
+

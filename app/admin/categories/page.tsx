@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Plus, Edit2, Trash2, Search, RefreshCw, ArrowUpDown } from 'lucide-react'
@@ -22,7 +22,7 @@ export default function CategoriesPage() {
   const [error, setError] = useState<string | null>(null)
   const [form, setForm] = useState({ name: '', code: '', description: '', department: '' })
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com' as string
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com' as string
   if (!API_BASE) throw new Error('Missing NEXT_PUBLIC_API_URL')
 
   async function fetchCategories() {
@@ -213,7 +213,7 @@ export default function CategoriesPage() {
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-gray-900">Add New Category</h2>
-            <button onClick={() => setShowAddForm(false)} className="text-gray-500 hover:text-gray-700">✕</button>
+            <button onClick={() => setShowAddForm(false)} className="text-gray-500 hover:text-gray-700">âœ•</button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div>
@@ -274,13 +274,13 @@ export default function CategoriesPage() {
           >
             <ArrowUpDown className="w-4 h-4" />
             No. of Complaints
-            {sortBy === 'complaints' && <span className="text-xs">{sortOrder === 'desc' ? '↓' : '↑'}</span>}
+            {sortBy === 'complaints' && <span className="text-xs">{sortOrder === 'desc' ? 'â†“' : 'â†‘'}</span>}
           </button>
         </div>
 
         <div className="overflow-x-auto">
           {loading ? (
-            <div className="p-6 text-center text-gray-600">Loading categories…</div>
+            <div className="p-6 text-center text-gray-600">Loading categoriesâ€¦</div>
           ) : error ? (
             <div className="p-6 text-center text-red-600">Error: {error}</div>
           ) : categories.length === 0 ? (
@@ -296,7 +296,7 @@ export default function CategoriesPage() {
                     <div className="flex items-center gap-1">
                       Complaints
                       <ArrowUpDown className="w-4 h-4" />
-                      {sortBy === 'complaints' && <span className="text-xs text-[hsl(var(--sidebar-primary))]">{sortOrder === 'desc' ? '↓' : '↑'}</span>}
+                      {sortBy === 'complaints' && <span className="text-xs text-[hsl(var(--sidebar-primary))]">{sortOrder === 'desc' ? 'â†“' : 'â†‘'}</span>}
                     </div>
                   </th>
                   <th className="px-4 py-3 text-left font-semibold text-gray-700">Actions</th>
@@ -385,7 +385,7 @@ export default function CategoriesPage() {
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-lg font-semibold text-gray-900">Edit Category</h2>
-              <button onClick={() => setEditingCategory(null)} className="text-gray-500 hover:text-gray-700">✕</button>
+              <button onClick={() => setEditingCategory(null)} className="text-gray-500 hover:text-gray-700">âœ•</button>
             </div>
             <div className="space-y-4">
               <div>
@@ -465,3 +465,4 @@ export default function CategoriesPage() {
     </div>
   )
 }
+

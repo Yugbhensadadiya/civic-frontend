@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useRef, useEffect } from "react"
 import { ChevronRight, Home } from "lucide-react"
@@ -18,7 +18,7 @@ export default function AssignedComplaintsPage() {
   useEffect(() => {
     const token = localStorage.getItem('access_token')
     if (!token || token === 'undefined' || token === 'null') return
-    const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+    const API = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
     fetch(`${API}/api/department/dashboard/`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data?.department?.category) setDeptName(data.department.category) })
@@ -57,7 +57,7 @@ export default function AssignedComplaintsPage() {
       {/* Page Title */}
       <div>
         <h1 className="text-2xl font-bold text-slate-800">
-          {deptName ? `${deptName} Department — Complaints` : 'Assigned Complaints'}
+          {deptName ? `${deptName} Department â€” Complaints` : 'Assigned Complaints'}
         </h1>
         <p className="text-sm text-slate-500 mt-1">
           {deptName
@@ -90,3 +90,4 @@ export default function AssignedComplaintsPage() {
     </div>
   )
 }
+

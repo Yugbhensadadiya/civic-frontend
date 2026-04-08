@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Send, CheckCircle, Mail } from 'lucide-react'
@@ -13,7 +13,7 @@ export default function ContactForm() {
     message: '',
   })
 
-  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE_URL = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   useEffect(() => {
     try {
@@ -177,3 +177,4 @@ export default function ContactForm() {
     </section>
   )
 }
+

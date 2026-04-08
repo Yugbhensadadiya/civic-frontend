@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { 
@@ -46,7 +46,7 @@ export default function ModernDashboard() {
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData[]>([])
   const [categoryData, setCategoryData] = useState<CategoryData[]>([])
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
@@ -444,3 +444,4 @@ export default function ModernDashboard() {
     </div>
   )
 }
+

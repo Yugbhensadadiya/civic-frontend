@@ -140,7 +140,7 @@
       switch (category) {
         case 'NETWORK':
           console.log('%c  1. Test backend connectivity:', 'color: #ff4444');
-          console.log('%c     fetch("https://civic-backend-2.onrender.com/api/test/")', 'color: #ff4444');
+          console.log('%c     fetch("https://civic-backend-iob6.onrender.com/api/test/")', 'color: #ff4444');
           console.log('%c  2. Check Render dashboard status', 'color: #ff4444');
           console.log('%c  3. Verify environment variables', 'color: #ff4444');
           break;
@@ -167,7 +167,7 @@
           
         case 'ENVIRONMENT':
           console.log('%c  1. Create .env.local:', 'color: #03a9f4');
-          console.log('%c     NEXT_PUBLIC_API_URL=https://civic-backend-2.onrender.com', 'color: #03a9f4');
+          console.log('%c     NEXT_PUBLIC_API_URL=https://civic-backend-iob6.onrender.com', 'color: #03a9f4');
           console.log('%c  2. Restart development server:', 'color: #03a9f4');
           break;
       }

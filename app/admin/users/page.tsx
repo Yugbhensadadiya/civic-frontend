@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Search, Filter, MoreVertical, Edit, Eye, UserPlus, Shield, AlertCircle, Users, TrendingUp, Activity, RefreshCw, Trash2, ChevronDown } from 'lucide-react'
@@ -62,7 +62,7 @@ export default function AdminUsersPage() {
   })
   const router = useRouter()
 
-  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-2.onrender.com'
+  const API_BASE = (typeof process !== 'undefined' ? process.env.NEXT_PUBLIC_API_URL : undefined) || 'https://civic-backend-iob6.onrender.com'
 
   // Analytics data
   const [analyticsData, setAnalyticsData] = useState({
@@ -403,7 +403,7 @@ export default function AdminUsersPage() {
       const headers: Record<string, string> = { 'Content-Type': 'application/json' }
       if (token && token !== 'undefined' && token !== 'null') headers['Authorization'] = `Bearer ${token}`
 
-      // Only send role — all other fields are frozen
+      // Only send role â€” all other fields are frozen
       const response = await fetch(`${API_BASE}/api/users/${editingUser.id}/`, {
         method: 'PUT',
         headers,
@@ -524,7 +524,7 @@ export default function AdminUsersPage() {
         />
       </div>
 
-      {/* Charts Section — Monthly Registrations, 2/3 width */}
+      {/* Charts Section â€” Monthly Registrations, 2/3 width */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
           <div className="flex items-start justify-between mb-4">
@@ -855,7 +855,7 @@ export default function AdminUsersPage() {
         </div>
       )}
 
-      {/* Edit User Modal — only Role is editable */}
+      {/* Edit User Modal â€” only Role is editable */}
       {showEditModal && editingUser && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 w-full max-w-md">
@@ -914,3 +914,4 @@ export default function AdminUsersPage() {
     </div>
   )
 }
+

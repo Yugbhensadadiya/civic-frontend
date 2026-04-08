@@ -14,7 +14,7 @@
       console.log('🌐 FIXING NETWORK ERROR...');
       
       // Test backend connectivity
-      fetch('https://civic-backend-2.onrender.com/api/test/')
+      fetch('https://civic-backend-iob6.onrender.com/api/test/')
         .then(r => r.json())
         .then(d => {
           if (d.status === 'ok') {
@@ -31,7 +31,7 @@
       if (!process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_URL === 'undefined') {
         console.log('⚙️ SETTING ENVIRONMENT VARIABLE...');
         console.log('📝 Create .env.local file:');
-        console.log('NEXT_PUBLIC_API_URL=https://civic-backend-2.onrender.com');
+        console.log('NEXT_PUBLIC_API_URL=https://civic-backend-iob6.onrender.com');
         
         // Try to set it dynamically (development only)
         if (typeof window !== 'undefined') {
@@ -94,7 +94,7 @@
       console.log('⚙️ FIXING ENVIRONMENT ERROR...');
       
       // Set correct API URL
-      const correctUrl = 'https://civic-backend-2.onrender.com';
+      const correctUrl = 'https://civic-backend-iob6.onrender.com';
       if (typeof window !== 'undefined') {
         window.NEXT_PUBLIC_API_URL = correctUrl;
         console.log('✅ API URL set to:', correctUrl);
@@ -116,7 +116,7 @@
       ];
       
       endpoints.forEach(endpoint => {
-        fetch(`https://civic-backend-2.onrender.com${endpoint}`)
+        fetch(`https://civic-backend-iob6.onrender.com${endpoint}`)
           .then(r => r.json())
           .then(d => console.log(`✅ ${endpoint}:`, d))
           .catch(e => console.log(`❌ ${endpoint}:`, e.message));
