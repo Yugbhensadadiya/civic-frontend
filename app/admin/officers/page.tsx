@@ -1,13 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { UserPlus, BarChart3, Search } from "lucide-react"
-import api, { apiGet } from '@/lib/api'
+import { UserPlus } from "lucide-react"
+import { apiGet } from '@/lib/api'
 import OfficersKpiCards from "@/components/admin/officers/officers-kpi-cards"
 import OfficersTable from "@/components/admin/officers/officers-table"
 import OfficerProfileModal from "@/components/admin/officers/officer-profile-modal"
 import AddOfficerModal from "@/components/department/add-officer-modal"
-import OfficersAnalytics from "@/components/department/officers-analytics"
 import EditOfficerModal from "@/components/admin/officers/edit-officer-modal"
 import DeleteOfficerModal from "@/components/admin/officers/delete-officer-modal"
 import { Officer } from "@/components/admin/officers/officers-table"
@@ -19,7 +18,6 @@ export default function AdminOfficersPage() {
   const [statusFilter, setStatusFilter] = useState("All")
   const [profileOfficerId, setProfileOfficerId] = useState<string | null>(null)
   const [showAddOfficer, setShowAddOfficer] = useState(false)
-  const [showAnalytics, setShowAnalytics] = useState(false)
   const [editingOfficer, setEditingOfficer] = useState<Officer | null>(null)
   const [deletingOfficer, setDeletingOfficer] = useState<Officer | null>(null)
 
@@ -87,31 +85,6 @@ export default function AdminOfficersPage() {
 
       {/* KPI Cards */}
       <OfficersKpiCards />
-
-      {/* Filters & Actions */}
-      <div className="bg-white rounded-lg border border-slate-200 p-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            onClick={() => setShowAnalytics(!showAnalytics)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors text-sm font-medium border ${
-              showAnalytics
-                ? "bg-blue-600 text-white border-blue-600"
-                : "bg-white text-slate-700 border-slate-300 hover:bg-slate-50"
-            }`}
-          >
-            <BarChart3 className="w-4 h-4" />
-            Analytics
-          </button>
-        </div>
-      </div>
-
-      {/* Analytics Section */}
-      {showAnalytics && (
-        <div className="bg-white rounded-lg border border-slate-200 p-6">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Officer Performance Analytics</h2>
-          <OfficersAnalytics />
-        </div>
-      )}
 
       {/* Officers Table */}
       <OfficersTable

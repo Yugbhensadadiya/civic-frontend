@@ -67,31 +67,38 @@ export default function OfficersKpiCards() {
       try {
         const res = await axios.get("/api/officer-kpi/")
         const data = res.data
+        const total = Number(data.total_officers ?? 0)
+        const active = Number(data.active_officers ?? 0)
+        const inactive =
+          data.inactive_officers !== undefined && data.inactive_officers !== null
+            ? Number(data.inactive_officers)
+            : Math.max(0, total - active)
+        const assigned = Number(data.total_assigned ?? 0)
         setKpiData([
           {
             label: "Total Officers",
-            value: data.total_officers.toString(),
+            value: String(total),
             trendUp: true,
             icon: <Users className="w-5 h-5" />,
             colorType: "total",
           },
           {
             label: "Active Officers",
-            value: data.active_officers.toString(),
+            value: String(active),
             trendUp: true,
             icon: <UserCheck className="w-5 h-5" />,
             colorType: "resolved",
           },
           {
             label: "In-Active Officers",
-            value: (data.total_officers - data.active_officers).toString(),
+            value: String(inactive),
             trendUp: false,
             icon: <AlertCircle className="w-5 h-5" />,
             colorType: "pending",
           },
           {
             label: "Total Assigned",
-            value: data.total_assigned.toString(),
+            value: String(assigned),
             trendUp: true,
             icon: <FileText className="w-5 h-5" />,
             colorType: "inProgress",

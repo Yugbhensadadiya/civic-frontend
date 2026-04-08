@@ -1,18 +1,16 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { UserPlus, BarChart3 } from "lucide-react"
+import { UserPlus } from "lucide-react"
 import OfficersKpiCards from "@/components/admin/officers/officers-kpi-cards"
 import OfficersTable from "@/components/admin/officers/officers-table"
 import OfficerProfileModal from "@/components/admin/officers/officer-profile-modal"
-import OfficersAnalytics from "@/components/department/officers-analytics"
 import EditOfficerModal from "@/components/department/edit-officer-modal"
 import AddOfficerModal from "@/components/department/add-officer-modal"
 
 export default function DepartmentOfficersPage() {
   const [profileOfficerId, setProfileOfficerId] = useState<string | null>(null)
   const [showAddOfficer, setShowAddOfficer] = useState(false)
-  const [showAnalytics, setShowAnalytics] = useState(false)
   const [refreshKey, setRefreshKey] = useState(0)
   const [editingOfficer, setEditingOfficer] = useState<any>(null)
   const [showEditModal, setShowEditModal] = useState(false)
@@ -111,31 +109,6 @@ export default function DepartmentOfficersPage() {
 
       {/* KPI Cards */}
       <OfficersKpiCards />
-
-      {/* Filters & Actions */}
-      <div className="bg-white rounded-lg border border-slate-200 p-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            onClick={() => setShowAnalytics(!showAnalytics)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors text-sm font-medium border ${
-              showAnalytics
-                ? "bg-[#1e3a5f] text-white border-[#1e3a5f]"
-                : "bg-white text-slate-700 border-slate-300 hover:bg-slate-50"
-            }`}
-          >
-            <BarChart3 className="w-4 h-4" />
-            Analytics
-          </button>
-        </div>
-      </div>
-
-      {/* Analytics */}
-      {showAnalytics && (
-        <div className="bg-white rounded-lg border border-slate-200 p-6">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Officer Performance Analytics</h2>
-          <OfficersAnalytics />
-        </div>
-      )}
 
       {/* Officers Table */}
       <OfficersTable

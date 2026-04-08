@@ -31,6 +31,8 @@ interface MonthlyData {
   users: number
 }
 
+const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as const
+
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
@@ -76,13 +78,21 @@ export default function AdminUsersPage() {
     processAnalytics()
   }, [])
 
-  // Recompute monthly registrations when year changes
+  /** Prefer backend aggregation (12 months, matches DB); fallback to client if API fails. */
   useEffect(() => {
-    if (users.length > 0) {
-      setAnalyticsData(prev => ({
+    let cancelled = false
+    const run = async () => {
+      const fromApi = await fetchMonthlyRegistrationsFromApi(regYear)
+      if (cancelled) return
+      setAnalyticsData((prev) => ({
         ...prev,
-        monthlyRegistrations: calculateMonthlyFromUsers(users, regYear)
+        monthlyRegistrations:
+          fromApi ?? (users.length > 0 ? calculateMonthlyFromUsers(users, regYear) : MONTH_ABBR.map((m) => ({ month: m, users: 0 }))),
       }))
+    }
+    run()
+    return () => {
+      cancelled = true
     }
   }, [regYear, users])
 
@@ -91,49 +101,39 @@ export default function AdminUsersPage() {
     setCurrentPage(1)
   }, [searchTerm, roleFilter, statusFilter])
 
-  const fetchMonthlyRegistrations = async () => async () => {
+  async function fetchMonthlyRegistrationsFromApi(year: number): Promise<MonthlyData[] | null> {
     try {
       const token = localStorage.getItem('access_token')
       const headers: Record<string, string> = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }
-      
       if (token && token !== 'undefined' && token !== 'null') {
         headers['Authorization'] = `Bearer ${token}`
       }
+      const response = await fetch(`${API_BASE}/api/user-registrations/monthly/?year=${year}`, { headers })
+      if (!response.ok) return null
+      const responseData = await response.json()
 
-      // Try to fetch from the monthly registrations API endpoint
-      const response = await fetch(`${API_BASE}/api/user-registrations/monthly/`, { headers })
-      
-      if (response.ok) {
-        const responseData = await response.json()
-        console.log('Monthly registrations data:', responseData)
-        
-        // Handle different response formats
-        let monthlyData = []
-        if (Array.isArray(responseData)) {
-          monthlyData = responseData
-        } else if (responseData.data && Array.isArray(responseData.data)) {
-          monthlyData = responseData.data
-        } else if (responseData.results && Array.isArray(responseData.results)) {
-          monthlyData = responseData.results
-        } else if (responseData.monthly_data && Array.isArray(responseData.monthly_data)) {
-          monthlyData = responseData.monthly_data
-        } else {
-          // Fallback: process from users data if API doesn't have specific endpoint
-          return null
-        }
-        
-        // Transform data to ensure proper format
-        return monthlyData.map((item: any) => ({
-          month: item.month || item.name,
-          users: parseInt(item.users || item.count || item.registrations)
+      if (Array.isArray(responseData.monthly_users) && responseData.monthly_users.length === 12) {
+        return MONTH_ABBR.map((month, i) => ({
+          month,
+          users: Number(responseData.monthly_users[i] ?? 0),
+        }))
+      }
+
+      if (responseData.monthly_data && typeof responseData.monthly_data === 'object') {
+        const full = [
+          'January', 'February', 'March', 'April', 'May', 'June',
+          'July', 'August', 'September', 'October', 'November', 'December',
+        ]
+        return MONTH_ABBR.map((abbr, i) => ({
+          month: abbr,
+          users: Number(responseData.monthly_data[full[i]] ?? 0),
         }))
       }
     } catch (error) {
       console.error('Error fetching monthly registrations:', error)
     }
-    
     return null
   }
 
@@ -195,11 +195,11 @@ export default function AdminUsersPage() {
         console.log('Processed users:', processedUsers)
         setUsers(processedUsers)
 
-        // Calculate monthly registrations from actual user data
-        const monthlyRegistrations = calculateMonthlyFromUsers(processedUsers, regYear)
-        console.log('Monthly registrations calculated:', monthlyRegistrations)
+        const monthlyFromApi = await fetchMonthlyRegistrationsFromApi(regYear)
+        const monthlyRegistrations =
+          monthlyFromApi ??
+          calculateMonthlyFromUsers(processedUsers, regYear)
 
-        // Update analytics data with calculated values
         const roleDist = calculateRoleDistribution(processedUsers)
         setAnalyticsData({
           totalUsers: processedUsers.length,
@@ -207,7 +207,7 @@ export default function AdminUsersPage() {
           inactiveUsers: processedUsers.filter((u: User) => !u.is_active).length,
           totalComplaints: processedUsers.reduce((sum: number, u: User) => sum + (u.complaint_count || 0), 0),
           roleDistribution: roleDist,
-          monthlyRegistrations: monthlyRegistrations
+          monthlyRegistrations,
         })
       } else {
         console.error('Failed to fetch users:', response.status)
@@ -229,22 +229,25 @@ export default function AdminUsersPage() {
     }
   }
 
-  const calculateMonthlyFromUsers = (users: User[], year: number) => {
+  const calculateMonthlyFromUsers = (userList: User[], year: number) => {
     const monthlyCounts: Record<string, number> = {}
-    const allMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    allMonths.forEach(month => { monthlyCounts[month] = 0 })
-    users.forEach(user => {
+    MONTH_ABBR.forEach((month) => {
+      monthlyCounts[month] = 0
+    })
+    userList.forEach((user) => {
       if (user.date_joined) {
         try {
           const joinDate = new Date(user.date_joined)
           if (!isNaN(joinDate.getTime()) && joinDate.getFullYear() === year) {
-            const monthName = joinDate.toLocaleString('default', { month: 'short' })
-            if (monthlyCounts.hasOwnProperty(monthName)) monthlyCounts[monthName]++
+            const monthName = joinDate.toLocaleString('en-US', { month: 'short' })
+            if (Object.prototype.hasOwnProperty.call(monthlyCounts, monthName)) {
+              monthlyCounts[monthName]++
+            }
           }
         } catch {}
       }
     })
-    return Object.entries(monthlyCounts).map(([month, users]) => ({ month, users }))
+    return MONTH_ABBR.map((month) => ({ month, users: monthlyCounts[month] ?? 0 }))
   }
 
   const calculateRoleDistribution = (users: User[]) => {

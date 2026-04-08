@@ -50,9 +50,11 @@ export default function DepartmentsPage() {
   const [stats, setStats] = useState<DepartmentStats | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  /** Backend requires a category code; new departments default to OTHER (UI no longer collects it). */
+  const DEFAULT_DEPARTMENT_CATEGORY = 'OTHER'
+
   const [form, setForm] = useState({ 
     name: '', 
-    category: '', 
     description: '', 
     contact_email: '', 
     contact_phone: '',
@@ -189,10 +191,15 @@ export default function DepartmentsPage() {
       
       const method = editingDepartment ? 'PUT' : 'POST'
       
+      const payload = {
+        ...form,
+        category: editingDepartment ? editingDepartment.category : DEFAULT_DEPARTMENT_CATEGORY,
+      }
+
       const res = await fetch(url, {
         method,
         headers: getAuthHeaders(),
-        body: JSON.stringify(form)
+        body: JSON.stringify(payload)
       })
 
       if (!res.ok) throw new Error('Failed to save department')
@@ -200,7 +207,7 @@ export default function DepartmentsPage() {
       await fetchDepartments()
       setShowAddForm(false)
       setEditingDepartment(null)
-      setForm({ name: '', category: '', description: '', contact_email: '', contact_phone: '', head_officer: '' })
+      setForm({ name: '', description: '', contact_email: '', contact_phone: '', head_officer: '' })
     } catch (e: any) {
       setError(e.message || 'Error saving department')
     }
@@ -226,7 +233,6 @@ export default function DepartmentsPage() {
     setEditingDepartment(department)
     setForm({
       name: department.name,
-      category: department.category,
       description: department.description,
       contact_email: department.contact_email,
       contact_phone: department.contact_phone,
@@ -358,7 +364,7 @@ export default function DepartmentsPage() {
               Refresh
             </button>
             <button
-              onClick={() => { setEditingDepartment(null); setForm({ name: '', category: '', description: '', contact_email: '', contact_phone: '', head_officer: '' }); setShowAddForm(true) }}
+              onClick={() => { setEditingDepartment(null); setForm({ name: '', description: '', contact_email: '', contact_phone: '', head_officer: '' }); setShowAddForm(true) }}
               className="flex items-center gap-2 px-4 py-2 bg-sidebar-primary text-white rounded-lg hover:bg-sidebar-primary/90 transition-colors"
             >
               <Building2 className="w-4 h-4" />
@@ -654,33 +660,16 @@ export default function DepartmentsPage() {
             </div>
             
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Department Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={form.name}
-                    onChange={(e) => setForm({...form, name: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sidebar-primary focus:border-sidebar-primary"
-                    placeholder="e.g., Public Works Department"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                  <select
-                    required
-                    value={form.category}
-                    onChange={(e) => setForm({...form, category: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sidebar-primary focus:border-sidebar-primary"
-                  >
-                    <option value="">Select Category</option>
-                    {categoryChoices.map(cat => (
-                      <option key={cat.value} value={cat.value}>{cat.label}</option>
-                    ))}
-                  </select>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Department Name</label>
+                <input
+                  type="text"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({...form, name: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sidebar-primary focus:border-sidebar-primary"
+                  placeholder="e.g., Public Works Department"
+                />
               </div>
               
               <div>
@@ -731,7 +720,7 @@ export default function DepartmentsPage() {
                   onClick={() => {
                     setShowAddForm(false)
                     setEditingDepartment(null)
-                    setForm({ name: '', category: '', description: '', contact_email: '', contact_phone: '', head_officer: '' })
+                    setForm({ name: '', description: '', contact_email: '', contact_phone: '', head_officer: '' })
                   }}
                   className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
