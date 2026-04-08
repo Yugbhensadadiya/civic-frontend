@@ -10,16 +10,37 @@ export default function AboutHero() {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          // Civic/government themed (city infrastructure / administration)
-          backgroundImage: `url('https://images.unsplash.com/photo-1444723121867-7a241cacace9?q=80&w=2400&auto=format&fit=crop')`,
+          backgroundImage: `url('/about-hero-gujarat-civictrack.png')`,
           backgroundPosition: 'center',
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-indigo-800/30 to-purple-900/30"></div>
+        {/* Tone + contrast harmonization (match site palette) */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0b1b33]/35 via-[#102a56]/25 to-[#1d4ed8]/15"></div>
       </div>
       
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/60"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/60"></div>
+
+      {/* Hide embedded Gemini shield/logo area (non-destructive mask) */}
+      <div
+        className="absolute rounded-2xl"
+        style={{
+          // Positioned over the center-right shield in the background image
+          left: '58%',
+          top: '22%',
+          width: '140px',
+          height: '140px',
+          background:
+            'radial-gradient(circle at 40% 35%, rgba(59,130,246,0.35), rgba(15,23,42,0.65) 60%, rgba(0,0,0,0) 75%)',
+          backdropFilter: 'blur(3px)',
+          WebkitBackdropFilter: 'blur(3px)',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.35)',
+          border: '1px solid rgba(148,163,184,0.25)',
+          pointerEvents: 'none',
+          transform: 'rotate(-6deg)',
+        }}
+        aria-hidden="true"
+      />
 
       {/* Animated background elements overlay */}
       <div className="absolute inset-0">
