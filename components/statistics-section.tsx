@@ -53,59 +53,25 @@ export default function StatisticsSection() {
       setError(null)
 
       const API_BASE_URL = getApiBase()
-      const token =
-        typeof window !== 'undefined'
-          ? localStorage.getItem('access_token') ||
-            localStorage.getItem('adminToken') ||
-            localStorage.getItem('departmentToken')
-          : null
-      const authHeaders: Record<string, string> = { 'Content-Type': 'application/json' }
-      if (token && token !== 'undefined' && token !== 'null') {
-        authHeaders['Authorization'] = `Bearer ${token}`
-      }
-
-      // Logged-in users: role-scoped stats. Visitors: global public stats.
-      const useUserStats = Boolean(authHeaders['Authorization'])
-      const endpoint = useUserStats
-        ? `${API_BASE_URL}/api/user/stats/`
-        : `${API_BASE_URL}/api/complaintinfo/`
-
-      let userPayload = useUserStats
-      let response = await fetch(endpoint, { headers: useUserStats ? authHeaders : { 'Content-Type': 'application/json' } })
-
-      if (useUserStats && response.status === 401) {
-        userPayload = false
-        response = await fetch(`${API_BASE_URL}/api/complaintinfo/`, { headers: { 'Content-Type': 'application/json' } })
-      }
+      const response = await fetch(`${API_BASE_URL}/api/stats/`, {
+        headers: { 'Content-Type': 'application/json' },
+      })
 
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
 
       const data: RawStatData & Record<string, unknown> = await response.json()
       console.log('[Platform Statistics] API response:', data)
 
-      if (userPayload) {
-        setStats({
-          total_complaints: Number(data.total ?? 0),
-          resolved_complaints: Number(data.resolved ?? 0),
-          pending_complaints: Number(data.pending ?? 0),
-          in_progress_complaints: 0,
-          sla_compliance: Number(data.sla ?? 0),
-          total_categories: Number(data.categories ?? 0),
-          total_users: Number(data.users ?? 0),
-          total_departments: 0,
-        })
-      } else {
-        setStats({
-          total_complaints: Number(data.total_complaints ?? 0),
-          resolved_complaints: Number(data.resolved_complaints ?? data.Resolved_complaints ?? 0),
-          pending_complaints: Number(data.pending_complaints ?? data.Pending_complaints ?? 0),
-          in_progress_complaints: Number(data.in_progress_complaints ?? 0),
-          sla_compliance: Number(data.sla_compliance ?? data.SLA_complaince ?? 0),
-          total_categories: Number(data.total_categories ?? 0),
-          total_users: Number(data.total_users ?? 0),
-          total_departments: Number(data.total_departments ?? 0),
-        })
-      }
+      setStats({
+        total_complaints: Number(data.total_complaints ?? 0),
+        resolved_complaints: Number(data.resolved ?? data.resolved_complaints ?? data.Resolved_complaints ?? 0),
+        pending_complaints: Number(data.pending ?? data.pending_complaints ?? data.Pending_complaints ?? 0),
+        in_progress_complaints: 0,
+        sla_compliance: Number(data.sla ?? data.sla_compliance ?? data.SLA_complaince ?? 0),
+        total_categories: Number(data.categories ?? data.total_categories ?? 0),
+        total_users: Number(data.users ?? data.total_users ?? 0),
+        total_departments: Number(data.total_departments ?? 0),
+      })
       
     } catch (error) {
       console.error("Error fetching statistics:", error)
@@ -161,7 +127,7 @@ export default function StatisticsSection() {
     },
     {
       label: 'SLA Compliance',
-      value: `${stats.sla_compliance || 0}%`,
+      value: `${Number(stats.sla_compliance ?? 0).toFixed(1)}%`,
       icon: <TrendingUp className="w-5 h-5" />,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
