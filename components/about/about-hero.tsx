@@ -10,7 +10,8 @@ export default function AboutHero() {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1555854877-bab0e564b8d5?q=80&w=2069&auto=format&fit=crop')`,
+          // Civic/government themed (city infrastructure / administration)
+          backgroundImage: `url('https://images.unsplash.com/photo-1444723121867-7a241cacace9?q=80&w=2400&auto=format&fit=crop')`,
           backgroundPosition: 'center',
         }}
       >
