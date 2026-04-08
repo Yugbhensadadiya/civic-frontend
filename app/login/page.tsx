@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { User, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import GoogleLoginBtn from '@/components/GoogleLoginBtn'
 import { useRouter } from 'next/navigation'
-import { authApi } from '../../lib/authApi'
+import { publicApi } from '../../lib/authApi'
 import { getApiBaseUrl } from '../../lib/config'
 
 export default function LoginPage() {
@@ -55,8 +55,8 @@ export default function LoginPage() {
       console.log('[Login] Attempting login to:', apiUrl)
       console.log('[Login] Form data:', { email: formData.email, password: '***' })
       
-      // Make API call with proper headers and method
-      const response = await authApi.post('/api/login/', {
+      // Login should use public client (no auth-refresh interceptor side effects).
+      const response = await publicApi.post('/api/login/', {
         email: formData.email.trim(),
         password: formData.password
       })
@@ -94,9 +94,18 @@ export default function LoginPage() {
       if (error.response) {
         // Server responded with error status
         statusCode = ` (${error.response.status})`
+        const responseData = error.response.data || {}
+
+        // Important: backend returns 403 + requires_verification for unverified users.
+        // Axios throws on non-2xx, so handle it in catch and continue OTP flow.
+        if (responseData.requires_verification) {
+          const verifyEmail = responseData.email || formData.email
+          window.location.href = `/verify-email?email=${encodeURIComponent(verifyEmail)}`
+          return
+        }
         
-        if (error.response.data?.message) {
-          errorMessage = error.response.data.message
+        if (responseData?.message) {
+          errorMessage = responseData.message
         } else if (error.response.status === 401) {
           errorMessage = 'Invalid credentials'
         } else if (error.response.status === 403) {
