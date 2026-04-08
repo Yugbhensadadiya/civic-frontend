@@ -54,12 +54,30 @@ export default function LoginPage() {
       const apiUrl = `${getApiBaseUrl()}/api/login/`
       console.log('[Login] Attempting login to:', apiUrl)
       console.log('[Login] Form data:', { email: formData.email, password: '***' })
-      
-      // Login should use public client (no auth-refresh interceptor side effects).
-      const response = await publicApi.post('/api/login/', {
-        email: formData.email.trim(),
-        password: formData.password
-      })
+
+      const isRetryableLoginError = (err: any) =>
+        err?.code === 'ECONNABORTED' ||
+        (typeof err?.message === 'string' && err.message.toLowerCase().includes('timeout')) ||
+        (!err?.response && !!err?.request)
+
+      let response: any = null
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          // Login should use public client (no auth-refresh interceptor side effects).
+          response = await publicApi.post('/api/login/', {
+            email: formData.email.trim(),
+            password: formData.password
+          })
+          break
+        } catch (err: any) {
+          if (attempt === 1 && isRetryableLoginError(err)) {
+            console.warn('[Login] First attempt failed, retrying in 5s...')
+            await new Promise((resolve) => setTimeout(resolve, 5000))
+            continue
+          }
+          throw err
+        }
+      }
       
       const data = response.data
       console.log('[Login] Response:', data)
@@ -115,9 +133,11 @@ export default function LoginPage() {
         } else if (error.response.status === 429) {
           errorMessage = 'Too many requests'
         }
+      } else if (error.code === 'ECONNABORTED' || (typeof error.message === 'string' && error.message.toLowerCase().includes('timeout'))) {
+        errorMessage = 'Server is starting, please try again in a few seconds'
       } else if (error.request) {
         // Request was made but no response received
-        errorMessage = 'Network error - no response'
+        errorMessage = 'Server is starting, please try again in a few seconds'
       } else if (error.code === 'ECONNREFUSED') {
         errorMessage = 'Connection refused'
       } else if (error.code === 'ENOTFOUND') {

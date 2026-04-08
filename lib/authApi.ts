@@ -113,7 +113,7 @@ const createAuthenticatedApi = (): AxiosInstance => {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     },
-    timeout: 30000,
+    timeout: 60000,
     withCredentials: false, // CORS handled by backend
   })
 
@@ -222,7 +222,7 @@ const createPublicApi = (): AxiosInstance => {
     headers: {
       'Content-Type': 'application/json',
     },
-    timeout: 30000,
+    timeout: 60000,
   })
 }
 

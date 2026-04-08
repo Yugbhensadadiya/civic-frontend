@@ -43,18 +43,44 @@ export default function SignupPage() {
     }
     setLoading(true)
     try {
-      const res = await fetch(`${getApiBaseUrl()}/api/register/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          username,
-          email,
-          password: formData.password,
-          confirm_password: formData.confirmPassword,
-          confirmPassword: formData.confirmPassword,
-          role: 'Civic-User',
-        }),
-      })
+      const payload = {
+        username,
+        email,
+        password: formData.password,
+        confirm_password: formData.confirmPassword,
+        confirmPassword: formData.confirmPassword,
+        role: 'Civic-User',
+      }
+      const registerUrl = `${getApiBaseUrl()}/api/register/`
+
+      const attemptRegister = async () => {
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 60000)
+        try {
+          return await fetch(registerUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(payload),
+            signal: controller.signal,
+          })
+        } finally {
+          clearTimeout(timeoutId)
+        }
+      }
+
+      let res: Response
+      try {
+        res = await attemptRegister()
+      } catch (firstError: any) {
+        const retryable =
+          firstError?.name === 'AbortError' ||
+          (firstError instanceof TypeError) ||
+          (typeof firstError?.message === 'string' && firstError.message.toLowerCase().includes('network'))
+        if (!retryable) throw firstError
+        console.warn('[Signup] First attempt failed, retrying in 5s...')
+        await new Promise((resolve) => setTimeout(resolve, 5000))
+        res = await attemptRegister()
+      }
       const text = await res.text()
       let data: Record<string, unknown> = {}
       try {
@@ -77,13 +103,17 @@ export default function SignupPage() {
         return
       }
       setError(typeof data.message === 'string' ? data.message : 'Registration failed.')
-    } catch (err) {
+    } catch (err: any) {
       console.error('[Signup] register request failed:', err)
-      setError(
-        err instanceof Error && err.message
-          ? err.message
-          : 'Network error. Please try again.'
-      )
+      if (err?.name === 'AbortError') {
+        setError('Server is starting, please try again in a few seconds.')
+      } else {
+        setError(
+          err instanceof Error && err.message
+            ? err.message
+            : 'Network error. Please try again.'
+        )
+      }
     } finally {
       setLoading(false)
     }
